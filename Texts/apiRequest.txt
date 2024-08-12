@@ -1,0 +1,67 @@
+{
+  "productName": "Iphone",
+  "price": 110,
+  "quantity": 4,
+  "features": "asdasd",
+  "description": "stasdasdas dasdaring",
+  "isActive": true,
+  "pointsPercentage": 10,
+  "maxPoints": 50,
+  "categoryIds": [
+    1,2
+  ]
+}
+
+
+
+{
+  "email": "seymahacat@hotmail.com",
+  "password": "Ferit123."
+}
+{
+  "email": "sey@sey.com",
+  "password": "Ferit011."
+}
+
+{
+  "couponCode": "PAPARA1234",
+  "orderDetails": [
+          {
+      "productId": 1,
+      "quantity": 1
+    },    
+     {
+      "productId": 1002,
+      "quantity": 3
+     },
+    {
+      "productId": 1020,
+      "quantity": 1
+    }
+  ]
+}
+
+
+
+
+{
+  "cardNumber": "4111111111111111",
+  "cardHolderName": "Ferit Simsek",
+  "expiryMonth": "12",
+  "expiryYear": "2025",
+  "cvv": "123",
+  "amount": 100
+}
+
+
+{
+  "firstName": "string",
+  "lastName": "string",
+  "countryId": 223,
+  "cityId": 4160,
+  "districtId": 48715,
+  "userName": "admins",
+  "email": "admins@admins.com",
+  "phoneNumber": "6545451651",
+  "password": "Ferit123."
+}

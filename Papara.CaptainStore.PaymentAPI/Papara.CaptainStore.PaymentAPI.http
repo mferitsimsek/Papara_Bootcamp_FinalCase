@@ -1,0 +1,6 @@
+@Papara.CaptainStore.PaymentAPI_HostAddress = http://localhost:5285
+
+GET {{Papara.CaptainStore.PaymentAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
