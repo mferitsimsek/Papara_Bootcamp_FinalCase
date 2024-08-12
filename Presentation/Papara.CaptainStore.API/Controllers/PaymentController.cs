@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Papara.CaptainStore.Application.CQRS.Commands.PaymentCommands;
 using Papara.CaptainStore.Application.Interfaces;
 using Papara.CaptainStore.Application.Services.OrderServices;
@@ -9,6 +10,7 @@ namespace Papara.CaptainStore.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class PaymentController : ControllerBase
     {
         private readonly IHttpClientService _httpClientService;

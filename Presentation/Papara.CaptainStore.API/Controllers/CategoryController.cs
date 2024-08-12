@@ -9,7 +9,6 @@ namespace Papara.CaptainStore.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [Authorize]
     public class CategoryController : ControllerBase
     {
         private readonly IMediator _mediator;

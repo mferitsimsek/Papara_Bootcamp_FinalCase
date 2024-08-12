@@ -9,7 +9,6 @@ namespace Papara.CaptainStore.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    //[Authorize]
     public class ProductController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -42,14 +41,14 @@ namespace Papara.CaptainStore.API.Controllers
             var response = await _mediator.Send(new GetProductsByNameAndDescriptionQueryRequest { SearchTerm = searcTerm });
             return this.ReturnResponseForApiResponseDtoExtension(response);
         }
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateProduct(ProductCreateCommandRequest request)
         {
             var response = await _mediator.Send(request);
             return this.ReturnResponseForApiResponseDtoExtension(response);
         }
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<IActionResult> UpdateProduct(ProductUpdateCommandRequest request)
         {

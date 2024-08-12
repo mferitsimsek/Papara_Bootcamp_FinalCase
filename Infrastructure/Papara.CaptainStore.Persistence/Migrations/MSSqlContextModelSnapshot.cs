@@ -302,7 +302,7 @@ namespace Papara.CaptainStore.Persistence.Migrations
                     b.HasIndex("CategoryName")
                         .IsUnique();
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Papara.CaptainStore.Domain.Entities.CouponEntities.Coupon", b =>
@@ -360,7 +360,7 @@ namespace Papara.CaptainStore.Persistence.Migrations
                     b.HasIndex("CouponCode")
                         .IsUnique();
 
-                    b.ToTable("Coupons");
+                    b.ToTable("Coupons", (string)null);
                 });
 
             modelBuilder.Entity("Papara.CaptainStore.Domain.Entities.CustomerEntities.CustomerAccount", b =>
@@ -410,7 +410,7 @@ namespace Papara.CaptainStore.Persistence.Migrations
                     b.HasIndex("AppUserId")
                         .IsUnique();
 
-                    b.ToTable("CustomerAccounts");
+                    b.ToTable("CustomerAccounts", (string)null);
                 });
 
             modelBuilder.Entity("Papara.CaptainStore.Domain.Entities.LocationEntities.City", b =>
@@ -432,7 +432,7 @@ namespace Papara.CaptainStore.Persistence.Migrations
 
                     b.HasIndex("CountryId");
 
-                    b.ToTable("Cities");
+                    b.ToTable("Cities", (string)null);
                 });
 
             modelBuilder.Entity("Papara.CaptainStore.Domain.Entities.LocationEntities.Country", b =>
@@ -457,7 +457,7 @@ namespace Papara.CaptainStore.Persistence.Migrations
 
                     b.HasKey("CountryId");
 
-                    b.ToTable("Countries");
+                    b.ToTable("Countries", (string)null);
                 });
 
             modelBuilder.Entity("Papara.CaptainStore.Domain.Entities.LocationEntities.District", b =>
@@ -479,7 +479,7 @@ namespace Papara.CaptainStore.Persistence.Migrations
 
                     b.HasIndex("CityId");
 
-                    b.ToTable("Districts");
+                    b.ToTable("Districts", (string)null);
                 });
 
             modelBuilder.Entity("Papara.CaptainStore.Domain.Entities.OrderEntities.Order", b =>
@@ -527,7 +527,7 @@ namespace Papara.CaptainStore.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Papara.CaptainStore.Domain.Entities.OrderEntities.OrderDetail", b =>
@@ -573,7 +573,7 @@ namespace Papara.CaptainStore.Persistence.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderDetails");
+                    b.ToTable("OrderDetails", (string)null);
                 });
 
             modelBuilder.Entity("Papara.CaptainStore.Domain.Entities.ProductEntities.Product", b =>
@@ -643,7 +643,7 @@ namespace Papara.CaptainStore.Persistence.Migrations
                     b.HasIndex("ProductName")
                         .IsUnique();
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("ProductCategory", b =>
@@ -658,7 +658,7 @@ namespace Papara.CaptainStore.Persistence.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductCategory");
+                    b.ToTable("ProductCategory", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

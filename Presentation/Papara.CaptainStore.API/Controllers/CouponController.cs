@@ -27,12 +27,6 @@ namespace Papara.CaptainStore.API.Controllers
             return this.ReturnResponseForApiResponseDtoExtension(response);
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllCouponsByElasticSearch()
-        {
-            var response = await _mediator.Send(new CouponsListQueryRequest());
-            return this.ReturnResponseForApiResponseDtoExtension(response);
-        }
-        [HttpGet]
         public async Task<IActionResult> GetCouponById(int couponId)
         {
             var response = await _mediator.Send(new GetCouponByIdQueryRequest { CouponId = couponId });

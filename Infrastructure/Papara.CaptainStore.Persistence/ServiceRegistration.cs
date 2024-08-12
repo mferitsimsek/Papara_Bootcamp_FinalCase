@@ -31,7 +31,6 @@ namespace Papara.CaptainStore.Persistence
                       .UseSimpleAssemblyNameTypeSerializer()
                       .UseRecommendedSerializerSettings()
                       .UseSqlServerStorage(configuration.GetConnectionString("HangfireConnection")));
-
         }
     }
 }

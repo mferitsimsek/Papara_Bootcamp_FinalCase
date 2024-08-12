@@ -26,12 +26,14 @@ namespace Papara.CaptainStore.API.Controllers
             return this.ReturnResponseForApiResponseDtoExtension(response);
         }
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetMyOrders()
         {
             var response = await _mediator.Send(new GetMyOrdersQueryRequest());
             return this.ReturnResponseForApiResponseDtoExtension(response);
         }
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetMyOrderById(int orderId)
         {
             var response = await _mediator.Send(new GetMyOrderByIdQuery { OrderId = orderId });

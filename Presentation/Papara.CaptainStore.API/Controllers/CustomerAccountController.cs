@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Papara.CaptainStore.Application.CQRS.Commands.CustomerAccountCommands;
 using Papara.CaptainStore.Application.CQRS.Queries.CustomerAccountQueries;
@@ -8,6 +9,7 @@ namespace Papara.CaptainStore.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class CustomerAccountController : ControllerBase
     {
         private readonly IMediator _mediator;

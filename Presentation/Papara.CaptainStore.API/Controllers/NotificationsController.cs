@@ -1,7 +1,6 @@
 ﻿using Hangfire;
 using Microsoft.AspNetCore.Mvc;
 using Papara.CaptainStore.Application.Interfaces.Message;
-using Papara.CaptainStore.Application.Services.Notification;
 using Papara.CaptainStore.Application.Services.Hangfire;
 using Papara.CaptainStore.Domain.DTOs.NotificationDTOs;
 
@@ -14,7 +13,7 @@ namespace Papara.CaptainStore.API.Controllers
         private readonly IMessageProducer _messageProducer;
         private readonly HangfireJobs _hangfireJobs;
 
-        public NotificationsController(IMessageProducer messageProducer,HangfireJobs hangfireJobs)
+        public NotificationsController(IMessageProducer messageProducer, HangfireJobs hangfireJobs)
         {
             _messageProducer = messageProducer;
             _hangfireJobs = hangfireJobs;
@@ -23,7 +22,7 @@ namespace Papara.CaptainStore.API.Controllers
         [HttpPost("SetRecurringJob")]
         public string Recurring()
         {
-            // HangfireJobs sınıfını kullanarak ManageRabbitMQConsumer metodunu 2 dakikaya zamanlıyoruz
+            // HangfireJobs sınıfını kullanarak ManageRabbitMQConsumer metodunu 2 dakikada bir çalışmaya zamanlar
             RecurringJob.AddOrUpdate("notificationjob", () => _hangfireJobs.ManageRabbitMQConsumer(), "*/2 * * * *");
             return "notificationjob";
         }

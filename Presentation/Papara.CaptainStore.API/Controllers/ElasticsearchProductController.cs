@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Papara.CaptainStore.Application.Services.ElasticSearchProductService;
 
 namespace Papara.CaptainStore.API.Controllers
@@ -15,6 +16,7 @@ namespace Papara.CaptainStore.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> IndexAllProductsAsync()
         {
             try

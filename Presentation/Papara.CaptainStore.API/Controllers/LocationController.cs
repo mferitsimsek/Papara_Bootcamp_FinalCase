@@ -8,7 +8,6 @@ namespace Papara.CaptainStore.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [Authorize]
     public class LocationController : ControllerBase
     {
         private readonly IMediator _mediator;

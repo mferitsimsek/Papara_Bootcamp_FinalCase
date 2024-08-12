@@ -9,7 +9,6 @@ namespace Papara.CaptainStore.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [Authorize]
 
     public class AppUserController : ControllerBase
     {

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Papara.CaptainStore.ElasticSearch;
 using Papara.CaptainStore.ElasticSearch.Models;
 
@@ -6,6 +7,7 @@ namespace Papara.CaptainStore.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class ElasticSearchController : ControllerBase
     {
         private readonly IElasticSearch _elasticSearch;
