@@ -38,7 +38,7 @@ namespace Papara.CaptainStore.API.Controllers
             return this.ReturnResponseForApiResponseDtoExtension(response);
         }
         [HttpPost]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateAdminUser(AdminUserCreateCommandRequest request)
         {
             var response = await _mediator.Send(request);
