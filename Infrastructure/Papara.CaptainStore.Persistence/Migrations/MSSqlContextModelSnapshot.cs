@@ -283,8 +283,8 @@ namespace Papara.CaptainStore.Persistence.Migrations
 
                     b.Property<string>("Tag")
                         .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -302,7 +302,7 @@ namespace Papara.CaptainStore.Persistence.Migrations
                     b.HasIndex("CategoryName")
                         .IsUnique();
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Papara.CaptainStore.Domain.Entities.CouponEntities.Coupon", b =>
@@ -321,7 +321,7 @@ namespace Papara.CaptainStore.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 8, 12, 18, 12, 38, 623, DateTimeKind.Local).AddTicks(2007));
+                        .HasDefaultValue(new DateTime(2024, 8, 12, 21, 9, 32, 988, DateTimeKind.Local).AddTicks(6806));
 
                     b.Property<Guid>("CreatedUserId")
                         .HasColumnType("uniqueidentifier");
@@ -360,7 +360,7 @@ namespace Papara.CaptainStore.Persistence.Migrations
                     b.HasIndex("CouponCode")
                         .IsUnique();
 
-                    b.ToTable("Coupons", (string)null);
+                    b.ToTable("Coupons");
                 });
 
             modelBuilder.Entity("Papara.CaptainStore.Domain.Entities.CustomerEntities.CustomerAccount", b =>
@@ -383,7 +383,7 @@ namespace Papara.CaptainStore.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 8, 12, 18, 12, 38, 621, DateTimeKind.Local).AddTicks(7247));
+                        .HasDefaultValue(new DateTime(2024, 8, 12, 21, 9, 32, 986, DateTimeKind.Local).AddTicks(6474));
 
                     b.Property<Guid>("CreatedUserId")
                         .HasColumnType("uniqueidentifier");
@@ -410,7 +410,7 @@ namespace Papara.CaptainStore.Persistence.Migrations
                     b.HasIndex("AppUserId")
                         .IsUnique();
 
-                    b.ToTable("CustomerAccounts", (string)null);
+                    b.ToTable("CustomerAccounts");
                 });
 
             modelBuilder.Entity("Papara.CaptainStore.Domain.Entities.LocationEntities.City", b =>
@@ -432,7 +432,7 @@ namespace Papara.CaptainStore.Persistence.Migrations
 
                     b.HasIndex("CountryId");
 
-                    b.ToTable("Cities", (string)null);
+                    b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("Papara.CaptainStore.Domain.Entities.LocationEntities.Country", b =>
@@ -457,7 +457,7 @@ namespace Papara.CaptainStore.Persistence.Migrations
 
                     b.HasKey("CountryId");
 
-                    b.ToTable("Countries", (string)null);
+                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("Papara.CaptainStore.Domain.Entities.LocationEntities.District", b =>
@@ -479,7 +479,7 @@ namespace Papara.CaptainStore.Persistence.Migrations
 
                     b.HasIndex("CityId");
 
-                    b.ToTable("Districts", (string)null);
+                    b.ToTable("Districts");
                 });
 
             modelBuilder.Entity("Papara.CaptainStore.Domain.Entities.OrderEntities.Order", b =>
@@ -527,7 +527,7 @@ namespace Papara.CaptainStore.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Papara.CaptainStore.Domain.Entities.OrderEntities.OrderDetail", b =>
@@ -573,7 +573,7 @@ namespace Papara.CaptainStore.Persistence.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderDetails", (string)null);
+                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("Papara.CaptainStore.Domain.Entities.ProductEntities.Product", b =>
@@ -643,7 +643,7 @@ namespace Papara.CaptainStore.Persistence.Migrations
                     b.HasIndex("ProductName")
                         .IsUnique();
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("ProductCategory", b =>
@@ -658,7 +658,7 @@ namespace Papara.CaptainStore.Persistence.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductCategory", (string)null);
+                    b.ToTable("ProductCategory");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

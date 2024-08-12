@@ -25,16 +25,24 @@ namespace Papara.CaptainStore.Application.Services.ProductServices
         }
         public async Task<ICollection<Category>> GetCategoriesByIdsAsync(IEnumerable<int> categoryIds)
         {
-            var tasks = categoryIds.Select(id => _unitOfWork.CategoryRepository.GetByIdAsync(id));
-            var categories = await Task.WhenAll(tasks);
-            var validCategories = categories.Where(c => c != null).ToList();
+            var categories = new List<Category>();
 
-            if (validCategories.Count != categoryIds.Count())
+            foreach (var categoryId in categoryIds)
+            {
+                var category = await _unitOfWork.CategoryRepository.GetByIdAsync(categoryId);
+                if (category != null)
+                {
+                    categories.Add(category);
+                }
+
+            }
+
+            if (categories.Count != categoryIds.Count())
             {
                 throw new Exception("Bir veya daha fazla kategori bulunamadı.");
             }
 
-            return validCategories;
+            return categories;
         }
 
 

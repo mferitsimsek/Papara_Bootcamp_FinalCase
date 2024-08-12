@@ -12,7 +12,7 @@ namespace Papara.CaptainStore.Persistence.Configurations.CategoryConfigurations
             builder.HasIndex(product => product.CategoryName).IsUnique();
             builder.Property(product => product.CategoryName).IsRequired().HasMaxLength(100);
             builder.Property(product => product.Url).IsRequired().HasMaxLength(250);
-            builder.Property(product => product.Tag).IsRequired().HasMaxLength(3);
+            builder.Property(product => product.Tag).IsRequired().HasMaxLength(50);
             builder.Property(product => product.CreatedDate).IsRequired();
             builder.Property(product => product.CreatedUserId).IsRequired();
             builder.Property(product => product.IsDeleted).IsRequired().HasDefaultValue(false);

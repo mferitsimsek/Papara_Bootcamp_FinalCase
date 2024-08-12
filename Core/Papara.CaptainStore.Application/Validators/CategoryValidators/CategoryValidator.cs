@@ -18,10 +18,6 @@ namespace Papara.CaptainStore.Application.Validators.CategoryValidators
             RuleFor(category => category.Tag)
                 .NotEmpty().WithMessage("Etiket boş olamaz.")
                 .MaximumLength(255).WithMessage("Etiket en fazla 255 karakter olabilir.");
-
-            // Product doğrulaması (Eğer gerekliyse)
-            // RuleForEach(category => category.Products)
-            //    .SetValidator(new ProductValidator());
         }
     }
 }

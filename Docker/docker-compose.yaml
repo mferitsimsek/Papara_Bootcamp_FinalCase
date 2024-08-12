@@ -58,26 +58,6 @@ services:
     environment:
       - ELASTICSEARCH_HOST=http://elasticsearch:9200
 
-  # API Servisleri
-  api:
-    build:
-      context: ../Presentation/Papara.CaptainStore.API
-    ports:
-      - "8080:80"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionString=Server=sqlserver,1433;Database=CaptainStore;User ID=SA;Password=Captainstore123.;
-
-  paymentapi:
-    build:
-      context: ../Papara.CaptainStore.PaymentAPI
-    ports:
-      - "8081:80"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionString=Server=sqlserver,1433;Database=CaptainStore;User ID=SA;Password=Captainstore123.;
-
-
 volumes:
   elasticsearch-data:
     driver: local

@@ -53,7 +53,8 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.ProductHandlers
                 }
 
                 var product = result.data as Product;
-                product.Categories = await _productService.GetCategoriesByIdsAsync(request.CategoryIds);
+                var categories= await _productService.GetCategoriesByIdsAsync(request.CategoryIds);
+                product.Categories = categories;
 
                 var response = await _productService.SaveProduct(product);
 
