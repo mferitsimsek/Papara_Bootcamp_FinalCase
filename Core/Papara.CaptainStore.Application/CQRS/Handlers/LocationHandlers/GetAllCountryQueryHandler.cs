@@ -14,13 +14,11 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.LocationHandlers
         private readonly IRepository<Country> _repository;
         private readonly IMapper _mapper;
         private readonly ICacheService _cacheService;
-        private readonly IUnitOfWork _unitOfWork;
-        public GetAllCountryQueryHandler(IRepository<Country> repository, IMapper mapper, ICacheService cacheService, IUnitOfWork unitOfWork)
+        public GetAllCountryQueryHandler(IRepository<Country> repository, IMapper mapper, ICacheService cacheService)
         {
             _repository = repository;
             _mapper = mapper;
             _cacheService = cacheService;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task<ApiResponseDTO<List<CountryListDTO>?>> Handle(GetAllCountryQueryRequest request, CancellationToken cancellationToken)

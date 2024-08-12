@@ -2,7 +2,7 @@
 using Papara.CaptainStore.Application.CQRS.Commands.CategoryCommands;
 using Papara.CaptainStore.Application.Interfaces;
 using Papara.CaptainStore.Application.Interfaces.Caching;
-using Papara.CaptainStore.Application.Services;
+using Papara.CaptainStore.Application.Services.CategoryServices;
 using Papara.CaptainStore.Domain.DTOs;
 
 namespace Papara.CaptainStore.Application.CQRS.Handlers.CategoryHandlers
@@ -10,10 +10,11 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.CategoryHandlers
     public class CategoryDeleteCommandHandler : IRequestHandler<CategoryDeleteCommandRequest, ApiResponseDTO<object?>>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly CategoryService _categoryService;
+        private readonly ICategoryService _categoryService;
         private readonly ICacheService _cacheService;
 
-        public CategoryDeleteCommandHandler(IUnitOfWork unitOfWork, CategoryService categoryService, ICacheService cacheService)
+
+        public CategoryDeleteCommandHandler(IUnitOfWork unitOfWork, ICategoryService categoryService, ICacheService cacheService)
         {
             _unitOfWork = unitOfWork;
             _categoryService = categoryService;
@@ -30,7 +31,7 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.CategoryHandlers
                     return new ApiResponseDTO<object?>(404, null, new List<string> { "Silinecek kategori bulunamadı." });
                 }
                 category.IsDeleted = true;
-                await _categoryService.UpdateEntity(category);
+                await _categoryService.UpdateCategory(category);
                 await _cacheService.RemoveAsync("Categories");
 
                 return new ApiResponseDTO<object?>(200, null, new List<string> { "Silme işlemi başarılı." });

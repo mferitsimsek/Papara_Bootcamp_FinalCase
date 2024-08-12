@@ -1,10 +1,11 @@
 ﻿using MediatR;
+using Papara.CaptainStore.Application.Helpers;
 using Papara.CaptainStore.Domain.DTOs;
 using System.Text.Json.Serialization;
 
 namespace Papara.CaptainStore.Application.CQRS.Commands.ProductCommands
 {
-    public class ProductCreateCommandRequest : IRequest<ApiResponseDTO<object?>>
+    public class ProductCreateCommandRequest : IRequest<ApiResponseDTO<object?>>,IHasCreatedUser
     {
         public required string ProductName { get; set; }
         public decimal Price { get; set; }
@@ -17,5 +18,7 @@ namespace Papara.CaptainStore.Application.CQRS.Commands.ProductCommands
         public List<int> CategoryIds { get; set; }
         [JsonIgnore]
         public Guid CreatedUserId { get; set; }
+        [JsonIgnore]
+        public DateTime CreatedDate { get; set; }
     }
 }

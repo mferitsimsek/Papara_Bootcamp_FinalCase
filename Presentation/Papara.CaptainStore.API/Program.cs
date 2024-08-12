@@ -10,8 +10,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddApplicationServices();
-//builder.Services.AddControllers();
-
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -30,6 +28,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHangfireDashboard();
+
 app.UseMiddleware<ErrorHandlerMiddleware>();
 Action<RequestProfilerModel> requestResponseHandler = requestProfilerModel =>
 {
@@ -41,8 +40,8 @@ Action<RequestProfilerModel> requestResponseHandler = requestProfilerModel =>
 };
 app.UseMiddleware<RequestLoggingMiddleware>(requestResponseHandler);
 
-app.UseHttpsRedirection(); // HTTPS yönlendirmesi ekleyin
-app.UseRouting(); // Rotalama middleware'ini ekleyin
+app.UseHttpsRedirection(); 
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 

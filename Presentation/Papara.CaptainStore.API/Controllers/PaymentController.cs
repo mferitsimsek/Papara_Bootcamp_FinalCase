@@ -43,12 +43,5 @@ namespace Papara.CaptainStore.API.Controllers
             await _orderService.UpdateOrderPaymentStatusAsync(request.OrderId, true);
             return Ok(response);
         }
-
-        [HttpOptions]
-        public async Task<IActionResult> PaymentOptions()
-        {
-            Response.Headers.Add("Allow", "POST");
-            return Ok();
-        }
     }
 }

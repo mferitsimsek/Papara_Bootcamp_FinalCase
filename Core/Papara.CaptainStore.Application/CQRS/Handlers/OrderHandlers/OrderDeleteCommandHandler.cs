@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Papara.CaptainStore.Application.CQRS.Commands.OrderCommands;
 using Papara.CaptainStore.Application.Interfaces;
-using Papara.CaptainStore.Application.Services.OrderServices;
 using Papara.CaptainStore.Domain.DTOs;
 
 namespace Papara.CaptainStore.Application.CQRS.Handlers.OrderHandlers
@@ -9,12 +8,10 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.OrderHandlers
     public class OrderDeleteCommandHandler : IRequestHandler<OrderDeleteCommandRequest, ApiResponseDTO<object?>>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly OrderService _orderService;
 
-        public OrderDeleteCommandHandler(IUnitOfWork unitOfWork, OrderService orderService)
+        public OrderDeleteCommandHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _orderService = orderService;
         }
         public async Task<ApiResponseDTO<object?>> Handle(OrderDeleteCommandRequest request, CancellationToken cancellationToken)
         {

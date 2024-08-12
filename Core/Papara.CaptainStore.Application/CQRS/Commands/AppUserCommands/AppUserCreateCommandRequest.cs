@@ -1,10 +1,11 @@
 ﻿using MediatR;
+using Papara.CaptainStore.Application.Helpers;
 using Papara.CaptainStore.Domain.DTOs;
 using System.Text.Json.Serialization;
 
 namespace Papara.CaptainStore.Application.CQRS.Commands.AppUserCommands
 {
-    public class AppUserCreateCommandRequest : IRequest<ApiResponseDTO<object?>>
+    public class AppUserCreateCommandRequest : IRequest<ApiResponseDTO<object?>>,IHasCreatedUser
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -17,5 +18,9 @@ namespace Papara.CaptainStore.Application.CQRS.Commands.AppUserCommands
         public string Password { get; set; }
         [JsonIgnore]
         public bool Status { get; set; } = true;
+        [JsonIgnore]
+        public Guid CreatedUserId { get; set; }
+        [JsonIgnore]
+        public DateTime CreatedDate { get; set; }
     }
 }

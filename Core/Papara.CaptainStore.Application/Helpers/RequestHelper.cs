@@ -26,7 +26,7 @@ namespace Papara.CaptainStore.Application.Helpers
                 }
             }
 
-            return null; // Başarılı olduğunda null döndürüyoruz
+            return null;
         }
     }
 

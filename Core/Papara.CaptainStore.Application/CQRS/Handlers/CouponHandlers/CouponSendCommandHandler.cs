@@ -33,11 +33,11 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.CouponHandlers
                 var couponDto= _mapper.Map<CouponListDTO>(coupon);
                 await _couponService.SendCouponEmailAsync(couponSendEmail, couponDto);
 
-                return new ApiResponseDTO<object?>(200, null, new List<string> { "Silme işlemi başarılı." });
+                return new ApiResponseDTO<object?>(200, null, new List<string> { "Kupon gönderme işlemi başarılı." });
             }
             catch (Exception ex)
             {
-                return new ApiResponseDTO<object?>(500, null, new List<string> { "Silme işlemi sırasında bir sorun oluştu.", ex.Message });
+                return new ApiResponseDTO<object?>(500, null, new List<string> { "Kupon gönderme işlemi sırasında bir sorun oluştu.", ex.Message });
             }
         }
     }

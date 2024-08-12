@@ -8,6 +8,9 @@ using Papara.CaptainStore.Application.Services.ProductServices;
 using Papara.CaptainStore.Domain.DTOs;
 using Papara.CaptainStore.Domain.DTOs.ProductDTOs;
 using Papara.CaptainStore.Domain.Entities.ProductEntities;
+using Papara.CaptainStore.ElasticSearch;
+using Papara.CaptainStore.ElasticSearch.Models;
+using Serilog;
 
 namespace Papara.CaptainStore.Application.CQRS.Handlers.ProductHandlers
 {
@@ -18,15 +21,17 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.ProductHandlers
         private readonly IValidator<Product> _validator;
         private readonly ISessionContext _sessionContext;
         private readonly IProductService _productService;
+        private readonly IElasticSearch _elasticSearch;
 
 
-        public ProductUpdateCommandHandler(IMapper mapper, IValidator<Product> validator, IUnitOfWork unitOfWork, ISessionContext sessionContext, IProductService productService)
+        public ProductUpdateCommandHandler(IMapper mapper, IValidator<Product> validator, IUnitOfWork unitOfWork, ISessionContext sessionContext, IProductService productService, IElasticSearch elasticSearch)
         {
             _mapper = mapper;
             _validator = validator;
             _unitOfWork = unitOfWork;
             _sessionContext = sessionContext;
             _productService = productService;
+            _elasticSearch = elasticSearch;
         }
         public async Task<ApiResponseDTO<object?>> Handle(ProductUpdateCommandRequest request, CancellationToken cancellationToken)
         {
@@ -46,7 +51,23 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.ProductHandlers
                     return result;
                 }
 
-                await _productService.UpdateProduct(result.data as Product);
+                var product = result.data as Product;
+                var response = await _productService.UpdateProduct(product);
+
+                if (response.status == 201)
+                {
+                    var elasticModel = new ElasticSearchInsertUpdateModel(
+                    elasticId: product.ProductId.ToString(),
+                       indexName: "products",
+                       item: product
+                   );
+                    var elasticResponse = await _elasticSearch.UpdateByElasticIdAsync(elasticModel);
+
+                    if (!elasticResponse.Success)
+                    {
+                        Log.Warning("Ürün veritabanına kaydedildi ancak Elasticserach indexlerken hata oluştu", elasticResponse.Message);
+                    }
+                }
 
                 return new ApiResponseDTO<object?>(201, _mapper.Map<ProductListDTO>(result.data), new List<string> { "Ürün Güncelleme işlemi başarılı." });
             }

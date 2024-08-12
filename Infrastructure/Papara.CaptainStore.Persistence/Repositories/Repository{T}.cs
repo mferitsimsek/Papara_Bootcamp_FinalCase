@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Papara.CaptainStore.Application.Interfaces;
+using Papara.CaptainStore.Domain.DTOs;
 using Papara.CaptainStore.Persistence.Contexts;
 using System.Linq.Expressions;
 
@@ -14,7 +15,24 @@ namespace Papara.CaptainStore.Persistence.Repositories
         {
             _context = context;
         }
+        public async Task<PagedResult<T>> GetAllAsync(int pageNumber, int pageSize,
+        List<Expression<Func<T, object>>>? includes = null)
+        {
+            var query = _context.Set<T>().AsQueryable();
 
+            if (includes != null)
+            {
+                query = includes.Aggregate(query, (current, include) => current.Include(include));
+            }
+
+            var totalCount = await query.CountAsync();
+
+            var items = await query.Skip((pageNumber - 1) * pageSize)
+                                   .Take(pageSize)
+                                   .ToListAsync();
+
+            return new PagedResult<T>(items, totalCount, pageNumber, pageSize);
+        }
         public async Task<List<T>> GetAllAsync(List<Expression<Func<T, object>>>? includes = null)
         {
             var query = _context.Set<T>().AsQueryable();
@@ -40,7 +58,7 @@ namespace Papara.CaptainStore.Persistence.Repositories
             }
             return await query.AsNoTracking().ToListAsync();
         }
-
+      
         public async Task<T?> GetByFilterAsync(Expression<Func<T, bool>> filter, List<Expression<Func<T, object>>>? includes = null)
         {
             var query = _context.Set<T>().AsQueryable();
@@ -104,5 +122,6 @@ namespace Papara.CaptainStore.Persistence.Repositories
         {
             return await _context.SaveChangesAsync();
         }
+
     }
 }

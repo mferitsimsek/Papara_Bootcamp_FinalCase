@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Papara.CaptainStore.API", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Papara.CaptainStore.PaymentAPI", "Papara.CaptainStore.PaymentAPI\Papara.CaptainStore.PaymentAPI.csproj", "{74ABCB8B-4AF4-4605-BE1D-EE5F14CC1F3C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Texts", "Texts", "{2352EB8B-E8CD-4C1C-9127-56A559685124}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Papara.CaptainStore.ElasticSearch", "Core\Papara.CaptainStore.ElasticSearch\Papara.CaptainStore.ElasticSearch.csproj", "{E75B637C-CC0B-4C6D-AF30-2CD506284CB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +47,10 @@ Global
 		{74ABCB8B-4AF4-4605-BE1D-EE5F14CC1F3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74ABCB8B-4AF4-4605-BE1D-EE5F14CC1F3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74ABCB8B-4AF4-4605-BE1D-EE5F14CC1F3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E75B637C-CC0B-4C6D-AF30-2CD506284CB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E75B637C-CC0B-4C6D-AF30-2CD506284CB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E75B637C-CC0B-4C6D-AF30-2CD506284CB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E75B637C-CC0B-4C6D-AF30-2CD506284CB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +61,7 @@ Global
 		{D3913E92-B275-4939-A036-DCB83EF1142B} = {4407AF7A-F9CD-4AD1-B07D-D6E4880F5F68}
 		{E59BC9CF-C194-48E3-94CF-A80E8D7F8C46} = {A663237E-76E8-4DFF-ABF1-3655CD839B97}
 		{74ABCB8B-4AF4-4605-BE1D-EE5F14CC1F3C} = {A663237E-76E8-4DFF-ABF1-3655CD839B97}
+		{E75B637C-CC0B-4C6D-AF30-2CD506284CB8} = {D002A673-C358-4D2C-8396-7CFE356A1F41}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {53637ED5-966E-4F68-9BC9-0D455A6E45BA}

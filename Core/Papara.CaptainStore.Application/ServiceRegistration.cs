@@ -1,30 +1,12 @@
-﻿using FluentValidation;
-using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 using Papara.CaptainStore.Application.Interfaces;
-using Papara.CaptainStore.Application.Interfaces.Caching;
-using Papara.CaptainStore.Application.Interfaces.Message;
 using Papara.CaptainStore.Application.Mappings;
+using Papara.CaptainStore.Application.Registrations;
 using Papara.CaptainStore.Application.Services;
-using Papara.CaptainStore.Application.Services.Caching;
-using Papara.CaptainStore.Application.Services.CategoryServices;
-using Papara.CaptainStore.Application.Services.CouponServices;
-using Papara.CaptainStore.Application.Services.CustomerAccountServices;
-using Papara.CaptainStore.Application.Services.MailContentBuilder;
-using Papara.CaptainStore.Application.Services.Message;
-using Papara.CaptainStore.Application.Services.Notification;
-using Papara.CaptainStore.Application.Services.OrderServices;
-using Papara.CaptainStore.Application.Services.PaymentServices;
-using Papara.CaptainStore.Application.Services.ProductServices;
-using Papara.CaptainStore.Application.Services.TokenServices;
-using Papara.CaptainStore.Application.Services.UserServices;
-using Papara.CaptainStore.Application.Validators.AppUserValidators;
-using Papara.CaptainStore.Domain.Consts;
 using System.Reflection;
-using System.Text;
 using System.Text.Json.Serialization;
 
 namespace Papara.CaptainStore.Application
@@ -33,45 +15,44 @@ namespace Papara.CaptainStore.Application
     {
         public static void AddApplicationServices(this IServiceCollection services)
         {
-
-            services.AddFluentValidationAutoValidation()
-                      .AddFluentValidationClientsideAdapters(); // doğrulama kuralları sadece sunucu tarafında değil istemci tarafındada uygulanır. Örn: JavaScript ile 
-
             services.AddControllers(config =>
             {
                 config.RespectBrowserAcceptHeader = true;
                 config.ReturnHttpNotAcceptable = true;
             })
-            .AddXmlDataContractSerializerFormatters()
             .AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
                 options.JsonSerializerOptions.WriteIndented = true;
-            });
+            })
+            .AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            })
+            .AddXmlDataContractSerializerFormatters();
+
             services.AddMediatR(opt =>
             {
                 opt.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
             });
 
-            services.AddAuthentication(x =>
+            services.AddAuthenticationServices();
+            services.AddValidationServices();
+            services.AddBusinessServices();
+            services.AddInfrastructureServices();
+
+            services.AddHttpClient<IHttpClientService, HttpClientService>();
+
+            services.AddAutoMapper(opt =>
             {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(x =>
-            {
-                x.RequireHttpsMetadata = true;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidIssuer = JwtTokenDefaults.ValidIssuer,
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(JwtTokenDefaults.Key)),
-                    ValidAudience = JwtTokenDefaults.ValidAudience,
-                    ValidateAudience = false,
-                    ValidateLifetime = true,
-                    ClockSkew = TimeSpan.FromMinutes(2)
-                };
+                opt.AddProfile(new AppRoleProfile());
+                opt.AddProfile(new AppUserProfile());
+                opt.AddProfile(new LocationProfile());
+                opt.AddProfile(new ProductProfile());
+                opt.AddProfile(new CategoryProfile());
+                opt.AddProfile(new CustomerAccountProfile());
+                opt.AddProfile(new CouponProfile());
+                opt.AddProfile(new OrderProfile());
             });
             services.AddSwaggerGen(c =>
             {
@@ -96,35 +77,7 @@ namespace Papara.CaptainStore.Application
                     { securityScheme, new string[] { } }
                 });
             });
-            services.AddHttpClient<IHttpClientService, HttpClientService>();
-            services.AddValidatorsFromAssemblyContaining<AppUserValidator>(); //Startup bulunduğu Assembly içindeki Validatörleri otomatik bulup DI ' a ekler..
-            services.AddAutoMapper(opt =>
-            {
-                opt.AddProfile(new AppRoleProfile());
-                opt.AddProfile(new AppUserProfile());
-                opt.AddProfile(new LocationProfile());
-                opt.AddProfile(new ProductProfile());
-                opt.AddProfile(new CategoryProfile());
-                opt.AddProfile(new CustomerAccountProfile());
-                opt.AddProfile(new CouponProfile());
-                opt.AddProfile(new OrderProfile());
-            });
-            services.AddScoped<CategoryService>();
-            services.AddScoped<OrderService>();
-            services.AddScoped<IOrderService, OrderService>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<ITokenService, TokenService>();
-            services.AddScoped<ICategoryService, CategoryService>();
-            services.AddScoped<IProductService, ProductService>();
-            services.AddScoped<ICouponService, CouponService>();
-            services.AddScoped<ICustomerAccountService, CustomerAccountService>();
-            services.AddScoped<IPaymentService, PaymentService>();
-            services.AddScoped<IEmailContentBuilder, EmailContentBuilder>();
 
-            services.AddSingleton<ICacheService, CacheService>();
-            services.AddSingleton<IMessageProducer, MessageProducer>();
-            services.AddSingleton<IMessageConsumer, MessageConsumer>();
-            services.AddSingleton<INotificationService, NotificationService>();
 
         }
     }

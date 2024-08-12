@@ -3,7 +3,7 @@
     public class BaseEntity
     {
         public int Id { get; set; }
-        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
         public Guid CreatedUserId { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public Guid? UpdatedUserId { get; set; }

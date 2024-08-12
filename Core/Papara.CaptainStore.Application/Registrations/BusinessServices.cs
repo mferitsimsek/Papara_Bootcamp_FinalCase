@@ -3,6 +3,7 @@ using Papara.CaptainStore.Application.Services;
 using Papara.CaptainStore.Application.Services.CategoryServices;
 using Papara.CaptainStore.Application.Services.CouponServices;
 using Papara.CaptainStore.Application.Services.CustomerAccountServices;
+using Papara.CaptainStore.Application.Services.ElasticSearchProductService;
 using Papara.CaptainStore.Application.Services.MailContentBuilder;
 using Papara.CaptainStore.Application.Services.OrderServices;
 using Papara.CaptainStore.Application.Services.PaymentServices;
@@ -25,6 +26,7 @@ namespace Papara.CaptainStore.Application.Registrations
             services.AddScoped<ICustomerAccountService, CustomerAccountService>();
             services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<IEmailContentBuilder, EmailContentBuilder>();
+            services.AddScoped<IElasticsearchProductService, ElasticsearchProductService>();
         }
     }
 }

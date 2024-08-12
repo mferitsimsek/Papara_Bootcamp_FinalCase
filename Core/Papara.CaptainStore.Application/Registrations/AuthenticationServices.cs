@@ -9,7 +9,7 @@ namespace Papara.CaptainStore.Application.Registrations
 {
     public static class AuthenticationServices
     {
-        public static void AddAuthenticationServices(this IServiceCollection services, IConfiguration configuration)
+        public static void AddAuthenticationServices(this IServiceCollection services)
         {
             services.AddAuthentication(x =>
             {

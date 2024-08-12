@@ -44,10 +44,10 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.CouponHandlers
                 {
                     return result;
                 }
+                var coupon = result.data as Coupon;
+                await _couponService.UpdateCoupon(coupon);
 
-                await _couponService.UpdateCoupon(result.data as Coupon);
-
-                return new ApiResponseDTO<object?>(201, _mapper.Map<CouponListDTO>(result.data), new List<string> { "Kupon güncelleme işlemi başarılı." });
+                return new ApiResponseDTO<object?>(201, _mapper.Map<CouponListDTO>(coupon), new List<string> { "Kupon güncelleme işlemi başarılı." });
             }
             catch (Exception ex)
             {

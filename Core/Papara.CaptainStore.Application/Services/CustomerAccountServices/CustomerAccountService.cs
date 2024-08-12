@@ -29,7 +29,7 @@ namespace Papara.CaptainStore.Application.Services.CustomerAccountServices
         {
             try
             {
-                await _unitOfWork.GetRepository<CustomerAccount>().UpdateAsync(customerAccount);
+                await _unitOfWork.CustomerAccountRepository.UpdateAsync(customerAccount);
                 await _unitOfWork.Complete();
                 return new ApiResponseDTO<object?>(201, customerAccount, new List<string> { "Güncelleme işlemi başarılı." });
             }
@@ -68,7 +68,8 @@ namespace Papara.CaptainStore.Application.Services.CustomerAccountServices
                 Balance = 0,
                 Points = 0,
                 AccountNumber = random.Next(100000, 999999),
-                CreatedUserId = userId
+                CreatedUserId = userId,
+                CreatedDate = DateTime.Now
             };
         }
     }

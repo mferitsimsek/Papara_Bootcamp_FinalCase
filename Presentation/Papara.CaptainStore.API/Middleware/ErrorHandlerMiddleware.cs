@@ -1,38 +1,67 @@
 ﻿using Serilog;
+using System.Net;
 using System.Text.Json;
 
 namespace Papara.CaptainStore.API.Middleware
 {
     public class ErrorHandlerMiddleware
     {
-        private readonly RequestDelegate next;
+        private readonly RequestDelegate _next;
+        private readonly IWebHostEnvironment _env;
 
-        public ErrorHandlerMiddleware(RequestDelegate next)
+        public ErrorHandlerMiddleware(RequestDelegate next, IWebHostEnvironment env)
         {
-            this.next = next;
+            _next = next;
+            _env = env;
         }
 
         public async Task Invoke(HttpContext context)
         {
             try
             {
-                // _next delegasyonunu çağır
-                await next.Invoke(context);
+                await _next(context);
             }
-            catch (Exception ex)
+            catch (Exception error)
             {
-                // Hata loglama
-                Log.Fatal(
+                var response = context.Response;
+                response.ContentType = "application/json";
+
+                switch (error)
+                {
+                    case ApplicationException e:
+                        // uygulama hataları
+                        response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        break;
+                    case KeyNotFoundException e:
+                        // not found hataları
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        break;
+                    default:
+                        // bilinmeyen diğer hatalar
+                        response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                        break;
+                }
+
+                var result = JsonSerializer.Serialize(new { message = GetErrorMessage(error) });
+
+                Log.Error(
                     $"Path={context.Request.Path} || " +
                     $"Method={context.Request.Method} || " +
-                    $"Exception={ex.Message}"
+                    $"Exception={error.Message} || " +
+                    $"StackTrace={error.StackTrace}"
                 );
-                // Hata yanıtı oluşturma
-                context.Response.StatusCode = 500;
-                context.Request.ContentType = "application/json";
-                var errorResponse = new { Message = "Internal Server Error" };
-                await context.Response.WriteAsync(JsonSerializer.Serialize(errorResponse));
+
+                await response.WriteAsync(result);
             }
+        }
+
+        private string GetErrorMessage(Exception error)
+        {
+            if (_env.IsDevelopment())
+            {
+                return error.Message;
+            }
+            return "An unexpected error occurred.";
         }
     }
 }

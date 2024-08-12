@@ -36,7 +36,13 @@ namespace Papara.CaptainStore.API.Controllers
             var response = await _mediator.Send(new GetProductsByCategoryIdQueryRequest { CategoryId = categoryId });
             return this.ReturnResponseForApiResponseDtoExtension(response);
         }
-        //[Authorize(Roles ="Admin")]
+        [HttpGet]
+        public async Task<IActionResult> SearchProducts(string searcTerm)
+        {
+            var response = await _mediator.Send(new GetProductsByNameAndDescriptionQueryRequest { SearchTerm = searcTerm });
+            return this.ReturnResponseForApiResponseDtoExtension(response);
+        }
+        [Authorize(Roles ="Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateProduct(ProductCreateCommandRequest request)
         {
