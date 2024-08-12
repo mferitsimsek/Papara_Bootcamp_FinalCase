@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  api:
+    build:
+      context: ../Presentation/Papara.CaptainStore.API
+    ports:
+      - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+  paymentapi:
+    build:
+      context: ../Papara.CaptainStore.PaymentAPI
+    ports:
+      - "8081:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
