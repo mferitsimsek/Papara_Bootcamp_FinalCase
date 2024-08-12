@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Papara.CaptainStore.Application.CQRS.Commands.PaymentCommands;
 using Papara.CaptainStore.Application.Interfaces;
+using Papara.CaptainStore.Application.Interfaces.OrderService;
 using Papara.CaptainStore.Domain.DTOs;
-using Papara.CaptainStore.Domain.Entities.OrderEntities;
+using Papara.CaptainStore.Domain.DTOs.PaymentDTOs;
 
 namespace Papara.CaptainStore.API.Controllers
 {
@@ -25,23 +26,22 @@ namespace Papara.CaptainStore.API.Controllers
         public async Task<IActionResult> ProcessPayment(PaymentCommandRequest request)
         {
             request.Amount = await _orderService.CalculatePaymentAmountAsync(request.OrderId);
-            if (request.Amount<=0)
+            if (request.Amount <= 0)
             {
-                return BadRequest(new { Message= "Ödeme işlemi başarısız. Sipariş ödeme işlemi zaten gerçekleştirilmiş" });
+                return BadRequest(new { Message = "Ödeme işlemi başarısız. Sipariş ödeme işlemi zaten gerçekleştirilmiş" });
 
             }
-            var response = await _httpClientService.SendRequestAsync<ApiResponseDTO<object?>>(
+            var response = await _httpClientService.SendRequestAsync<ApiResponseDTO<PaymentResponseDTO>>(
                         HttpMethod.Post,
                         $"{_paymentApiUrl}/api/Payment/ProcessPayment",
                         request);
 
-            if (response.status != 200)
+            if (!response.status.ToString().StartsWith("20"))
             {
-
-                return StatusCode((int)response.status, "Ödeme işlemi başarısız.");
+                return StatusCode((int)response.status, response.messages);
             }
-            await _orderService.UpdateOrderPaymentStatusAsync(request.OrderId , true);
-            return Ok("Ödeme başarılı.");
+            await _orderService.UpdateOrderPaymentStatusAsync(request.OrderId, true);
+            return Ok(response);
         }
     }
 }

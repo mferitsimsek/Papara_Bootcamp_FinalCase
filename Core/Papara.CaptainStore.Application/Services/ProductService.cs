@@ -1,11 +1,12 @@
 ﻿using Papara.CaptainStore.Application.Interfaces;
+using Papara.CaptainStore.Application.Interfaces.ProductServices;
 using Papara.CaptainStore.Domain.DTOs;
 using Papara.CaptainStore.Domain.Entities.CategoryEntities;
 using Papara.CaptainStore.Domain.Entities.ProductEntities;
 
 namespace Papara.CaptainStore.Application.Services
 {
-    public class ProductService : BaseService<Product>
+    public class ProductService : BaseService<Product>, IProductService
     {
         public ProductService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
@@ -18,6 +19,10 @@ namespace Papara.CaptainStore.Application.Services
         public async Task<ApiResponseDTO<object?>> SaveProduct(Product product)
         {
             return await SaveEntity(product);
+        }
+        public async Task<ApiResponseDTO<object?>> UpdateProduct(Product product)
+        {
+            return await UpdateEntity(product);
         }
         public async Task<ICollection<Category>> GetCategoriesByIdsAsync(IEnumerable<int> categoryIds)
         {
@@ -32,5 +37,7 @@ namespace Papara.CaptainStore.Application.Services
 
             return validCategories;
         }
+
+
     }
 }

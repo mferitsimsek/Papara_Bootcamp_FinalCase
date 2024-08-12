@@ -1,17 +1,18 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Hangfire;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Papara.CaptainStore.Application.Interfaces;
 using Papara.CaptainStore.Application;
+using Papara.CaptainStore.Application.Helpers;
+using Papara.CaptainStore.Application.Interfaces;
+using Papara.CaptainStore.Application.Services.Hangfire;
 using Papara.CaptainStore.Domain.Entities.AppRoleEntities;
 using Papara.CaptainStore.Domain.Entities.AppUserEntities;
 using Papara.CaptainStore.Persistence.Contexts;
 using Papara.CaptainStore.Persistence.Repositories;
 using StackExchange.Redis;
-using Papara.CaptainStore.Application.Services;
-using static Papara.CaptainStore.Application.Services.RedisService;
 
 namespace Papara.CaptainStore.Persistence
 {
@@ -26,10 +27,11 @@ namespace Papara.CaptainStore.Persistence
             services.AddHttpContextAccessor();
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            services.AddScoped<IUnitOfWork, Papara.CaptainStore.Persistence.UnitOfWork.UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
             services.AddIdentity<AppUser, AppRole>()
                    .AddEntityFrameworkStores<MSSqlContext>()
-                   .AddDefaultTokenProviders(); // Token üretimi için eklendi.
+                   .AddDefaultTokenProviders(); 
+
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = true;
@@ -50,25 +52,37 @@ namespace Papara.CaptainStore.Persistence
             services.Configure<RedisConfiguration>(Configuration.GetSection("Redis"));
 
             // Redis hizmeti
-            services.AddSingleton<IRedisService, RedisService>();
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = $"{Configuration["Redis:Host"]}:{Configuration["Redis:Port"]}";
                 options.InstanceName = Configuration["Redis:InstanceName"];
             });
 
-            // Caching hizmeti
-            services.AddSingleton<ICacheService, CacheService>();
+            services.AddSingleton<IConnectionMultiplexer>(sp =>
+            {
+                var redisConfig = Configuration.GetSection("Redis").Get<RedisConfiguration>();
+
+                var configuration = new ConfigurationOptions
+                {
+                    EndPoints = { { redisConfig.Host, int.Parse(redisConfig.Port) } },
+                };
+
+                return ConnectionMultiplexer.Connect(configuration);
+            });
 
 
-            //var redisConfig = new ConfigurationOptions();
-            //redisConfig.DefaultDatabase = 0;
-            //redisConfig.EndPoints.Add(Configuration["Redis:Host"], Convert.ToInt32(Configuration["Redis:Port"]));
-            //services.AddStackExchangeRedisCache(opt =>
-            //{
-            //    opt.ConfigurationOptions = redisConfig;
-            //    opt.InstanceName = Configuration["Redis:InstanceName"];
-            //});
+
+            services.Configure<RabbitMQOptions>(Configuration.GetSection("RabbitMQOptions"));
+            services.Configure<SmtpOptions>(Configuration.GetSection("SmtpOptions"));
+
+            services.AddHangfire(config =>
+                config.SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+                      .UseSimpleAssemblyNameTypeSerializer()
+                      .UseRecommendedSerializerSettings()
+                      .UseSqlServerStorage(Configuration.GetConnectionString("HangfireConnection")));
+
+            services.AddScoped<HangfireJobs>();
+
         }
     }
 }

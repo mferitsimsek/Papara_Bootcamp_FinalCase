@@ -19,9 +19,8 @@ namespace Papara.CaptainStore.PaymentAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> ProcessPayment(PaymentCommandRequest request)
         {
-
             var response = await _mediator.Send(request);
-            return this.ReturnResponseForApiResponseDtoExtension(response);            
+            return this.ReturnResponseForApiResponseDtoExtension(response);
         }
     }
 }

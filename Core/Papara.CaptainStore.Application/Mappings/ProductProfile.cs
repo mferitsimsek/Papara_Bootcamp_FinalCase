@@ -2,7 +2,6 @@
 using Papara.CaptainStore.Application.CQRS.Commands.ProductCommands;
 using Papara.CaptainStore.Domain.DTOs.CategoryDTOs;
 using Papara.CaptainStore.Domain.DTOs.ProductDTOs;
-using Papara.CaptainStore.Domain.Entities.CategoryEntities;
 using Papara.CaptainStore.Domain.Entities.ProductEntities;
 
 namespace Papara.CaptainStore.Application.Mappings

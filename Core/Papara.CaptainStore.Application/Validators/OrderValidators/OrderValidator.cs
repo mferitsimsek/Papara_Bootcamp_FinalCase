@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Papara.CaptainStore.Application.CQRS.Commands.OrderCommands;
 using Papara.CaptainStore.Domain.Entities.OrderEntities;
 
 namespace Papara.CaptainStore.Application.Validators.OrderValidators

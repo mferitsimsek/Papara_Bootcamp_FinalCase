@@ -3,10 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Papara.CaptainStore.Application.CQRS.Commands.CouponCommands;
 using Papara.CaptainStore.Application.CQRS.Queries.CouponQueries;
 using Papara.CaptainStore.Application.Extensions;
-using Papara.CaptainStore.Domain.DTOs.CouponDTOs;
-using Papara.CaptainStore.Domain.DTOs;
-using Swashbuckle.AspNetCore.Annotations;
-using System.ComponentModel;
+using Serilog;
 
 namespace Papara.CaptainStore.API.Controllers
 {
@@ -24,6 +21,8 @@ namespace Papara.CaptainStore.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllCoupons()
         {
+            Log.Warning("Uyarı Mesajı.");
+            Log.Error("Hata mesajı aldık.", "Hata");
             var response = await _mediator.Send(new CouponsListQueryRequest());
             return this.ReturnResponseForApiResponseDtoExtension(response);
         }
@@ -35,11 +34,11 @@ namespace Papara.CaptainStore.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetCouponsByFilter([FromBody]CouponsFilterQueryRequest request)
+        public async Task<IActionResult> GetCouponsByFilter([FromBody] CouponsFilterQueryRequest request)
         {
             var response = await _mediator.Send(request);
             return this.ReturnResponseForApiResponseDtoExtension(response);
-        }        
+        }
         [HttpPost]
         public async Task<IActionResult> CreateCoupon(CouponCreateCommandRequest request)
         {

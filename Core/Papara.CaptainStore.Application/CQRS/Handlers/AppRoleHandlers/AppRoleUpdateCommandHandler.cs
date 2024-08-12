@@ -46,16 +46,14 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.AppRoleHandlers
                     return new ApiResponseDTO<object?>(400, null, updateResult.Errors.Select(e => e.Description).ToList());
                 }
 
-                //return await UpdateSuccessResult(roleToUpdate);
                 return new ApiResponseDTO<object?>(200, _mapper.Map<AppRoleListDTO>(roleToUpdate), new List<string> { "Güncelleme işlemi başarılı." });
 
             }
             catch (Exception ex)
             {
-                return new ApiResponseDTO<object?>(500, null, new List<string> { "Güncelleme işlemi sırasında bir sorun oluştu." , ex.Message });
+                return new ApiResponseDTO<object?>(500, null, new List<string> { "Güncelleme işlemi sırasında bir sorun oluştu.", ex.Message });
             }
         }
-        // Aynı isimde güncelleme yapmasını istemiyorsak burayı komple kaldırabiliriz. Örneğin Admin to Admin değişiklik yok.
         private async Task<ApiResponseDTO<object?>?> CheckRoleIsExist(string roleName)
         {
             var isRoleExist = await _roleManager.RoleExistsAsync(roleName);
@@ -77,10 +75,5 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.AppRoleHandlers
             return null;
         }
 
-        //private async Task<IDTO<object?>> UpdateSuccessResult(AppRole appRole)
-        //{
-        //    var updatedRole = await _roleManager.FindByIdAsync(appRole.Id.ToString());
-        //    return new IDTO<object?>(200, _mapper.Map<AppRoleListDTO>(updatedRole), new List<string> { "Güncelleme işlemi başarılı." });
-        //}
     }
 }

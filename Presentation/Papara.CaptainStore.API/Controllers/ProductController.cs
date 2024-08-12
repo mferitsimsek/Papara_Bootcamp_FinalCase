@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Papara.CaptainStore.Application.CQRS.Commands.ProductCommands;
 using Papara.CaptainStore.Application.CQRS.Queries.ProductQueries;
 using Papara.CaptainStore.Application.Extensions;
-using Papara.CaptainStore.Domain.Entities.CouponEntities;
 
 namespace Papara.CaptainStore.API.Controllers
 {
@@ -28,7 +27,7 @@ namespace Papara.CaptainStore.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetProductById(int productId)
         {
-            var response = await _mediator.Send(new GetProductByIdQueryRequest { ProductId = productId});
+            var response = await _mediator.Send(new GetProductByIdQueryRequest { ProductId = productId });
             return this.ReturnResponseForApiResponseDtoExtension(response);
         }
         [HttpGet]

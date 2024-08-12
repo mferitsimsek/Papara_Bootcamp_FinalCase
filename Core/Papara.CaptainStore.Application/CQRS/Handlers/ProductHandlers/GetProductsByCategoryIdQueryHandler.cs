@@ -4,8 +4,6 @@ using Papara.CaptainStore.Application.CQRS.Queries.ProductQueries;
 using Papara.CaptainStore.Application.Interfaces;
 using Papara.CaptainStore.Domain.DTOs;
 using Papara.CaptainStore.Domain.DTOs.ProductDTOs;
-using Papara.CaptainStore.Domain.Entities.ProductEntities;
-using System.Linq.Expressions;
 
 namespace Papara.CaptainStore.Application.CQRS.Handlers.ProductHandlers
 {
@@ -26,7 +24,7 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.ProductHandlers
             {
                 var products = await _unitOfWork.ProductRepository.GetAllByFilterAsync(
                    product => product.Categories.Any(c => c.CategoryId == request.CategoryId), // Filtre
-                   new List<Expression<Func<Product, object>>> { p => p.Categories } // Include edilen Categories
+                   [p => p.Categories] // Include edilen Categories
                );
 
                 if (products.Any())
@@ -39,7 +37,6 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.ProductHandlers
             }
             catch (Exception ex)
             {
-                // Hata loglama işlemleri yapılabilir
                 return new ApiResponseDTO<List<ProductListDTO>?>(500, null, new List<string> { "Ürün listesi getirilirken bir hata oluştu.", ex.Message });
             }
         }

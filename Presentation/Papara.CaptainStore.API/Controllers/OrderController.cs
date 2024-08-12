@@ -19,7 +19,7 @@ namespace Papara.CaptainStore.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllOrders()
         {
             var response = await _mediator.Send(new OrdersListQueryRequest());
@@ -34,7 +34,7 @@ namespace Papara.CaptainStore.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetMyOrderById(int orderId)
         {
-            var response = await _mediator.Send(new GetOrderByIdQueryRequest { OrderId = orderId });
+            var response = await _mediator.Send(new GetMyOrderByIdQuery { OrderId = orderId });
             return this.ReturnResponseForApiResponseDtoExtension(response);
         }
         [HttpGet]
@@ -49,7 +49,7 @@ namespace Papara.CaptainStore.API.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetOrdersByFilter(bool paymentCompleted)
         {
-            var response = await _mediator.Send(new OrdersFilterQueryRequest { PaymentCompleted=paymentCompleted});
+            var response = await _mediator.Send(new OrdersFilterQueryRequest { PaymentCompleted = paymentCompleted });
             return this.ReturnResponseForApiResponseDtoExtension(response);
         }
         [HttpPost]

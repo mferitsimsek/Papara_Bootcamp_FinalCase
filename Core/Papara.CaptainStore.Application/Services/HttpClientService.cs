@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Papara.CaptainStore.Application.Interfaces;
-using Papara.CaptainStore.Domain.DTOs;
 using System.Text;
 
 namespace Papara.CaptainStore.Application.Services
@@ -14,7 +13,7 @@ namespace Papara.CaptainStore.Application.Services
             _httpClient = httpClient;
         }
 
-        public async Task<ApiResponseDTO<T>> SendRequestAsync<T>(HttpMethod method, string url, object? content = null) where T : class
+        public async Task<T> SendRequestAsync<T>(HttpMethod method, string url, object? content = null) where T : class
         {
             var request = new HttpRequestMessage(method, url);
 
@@ -29,11 +28,11 @@ namespace Papara.CaptainStore.Application.Services
             if (response.IsSuccessStatusCode)
             {
                 var data = JsonConvert.DeserializeObject<T>(responseContent);
-                return new ApiResponseDTO<T>(200, data, new List<string> { "İşlem başarılı" });
+                return data;
             }
             else
             {
-                return new ApiResponseDTO<T>((int)response.StatusCode, default, new List<string> { responseContent });
+                return null;
             }
         }
     }

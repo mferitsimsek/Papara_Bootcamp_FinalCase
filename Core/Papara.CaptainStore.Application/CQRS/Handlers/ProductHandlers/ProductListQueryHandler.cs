@@ -34,7 +34,6 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.ProductHandlers
             }
             catch (Exception ex)
             {
-                // Hata loglama işlemleri yapılabilir
                 return new ApiResponseDTO<List<ProductListDTO>?>(500, null, new List<string> { "Ürün listesi getirilirken bir hata oluştu.", ex.Message });
             }
         }

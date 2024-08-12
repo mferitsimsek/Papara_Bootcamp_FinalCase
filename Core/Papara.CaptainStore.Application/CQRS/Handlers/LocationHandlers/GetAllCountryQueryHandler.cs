@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.IdentityModel.Tokens;
 using Papara.CaptainStore.Application.CQRS.Queries.LocationQueries;
 using Papara.CaptainStore.Application.Interfaces;
+using Papara.CaptainStore.Application.Interfaces.CachingService;
 using Papara.CaptainStore.Domain.DTOs;
 using Papara.CaptainStore.Domain.Entities.LocationEntities;
 

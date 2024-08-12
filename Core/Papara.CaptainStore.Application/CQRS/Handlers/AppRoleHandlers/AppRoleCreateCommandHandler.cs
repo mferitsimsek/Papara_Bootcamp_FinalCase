@@ -41,7 +41,6 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.AppRoleHandlers
             catch (Exception ex)
             {
                 return new ApiResponseDTO<object?>(500, null, new List<string> { "Kayıt işlemi sırasında bir sorun oluştu.", ex.Message });
-                //return HandleException(ex);
             }
         }
 
@@ -64,11 +63,5 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.AppRoleHandlers
             }
             return null;
         }
-
-        //private IDTO<object?> HandleException(Exception ex)
-        //{
-        //    // Exception logging veya daha ileri işlem yapılabilir
-        //    return new IDTO<object?>(500, null, new List<string> { "Kayıt işlemi sırasında bir sorun oluştu." });
-        //}
     }
 }

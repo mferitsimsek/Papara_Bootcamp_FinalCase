@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Papara.CaptainStore.Application.CQRS.Commands.CouponCommands;
 using Papara.CaptainStore.Application.Interfaces;
-using Papara.CaptainStore.Application.Services;
+using Papara.CaptainStore.Application.Interfaces.CouponServices;
 using Papara.CaptainStore.Domain.DTOs;
 
 namespace Papara.CaptainStore.Application.CQRS.Handlers.CouponHandlers
@@ -9,9 +9,9 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.CouponHandlers
     public class CouponDeleteCommandHandler : IRequestHandler<CouponDeleteCommandRequest, ApiResponseDTO<object?>>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly CouponService _couponService;
+        private readonly ICouponService _couponService;
 
-        public CouponDeleteCommandHandler(IUnitOfWork unitOfWork, CouponService couponService)
+        public CouponDeleteCommandHandler(IUnitOfWork unitOfWork, ICouponService couponService)
         {
             _unitOfWork = unitOfWork;
             _couponService = couponService;
@@ -26,13 +26,12 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.CouponHandlers
                     return new ApiResponseDTO<object?>(404, null, new List<string> { "Silinecek kupon bulunamadı." });
                 }
                 coupon.IsDeleted = true;
-                await _couponService.UpdateEntity(coupon);
+                await _couponService.UpdateCoupon(coupon);
 
                 return new ApiResponseDTO<object?>(200, null, new List<string> { "Silme işlemi başarılı." });
             }
             catch (Exception ex)
             {
-                // Hata loglaması yapılabilir
                 return new ApiResponseDTO<object?>(500, null, new List<string> { "Silme işlemi sırasında bir sorun oluştu.", ex.Message });
             }
         }

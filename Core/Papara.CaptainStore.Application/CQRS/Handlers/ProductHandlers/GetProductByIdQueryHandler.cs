@@ -7,7 +7,7 @@ using Papara.CaptainStore.Domain.DTOs.ProductDTOs;
 
 namespace Papara.CaptainStore.Application.CQRS.Handlers.ProductHandlers
 {
-    internal class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQueryRequest, ApiResponseDTO<ProductListDTO?>>
+    public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQueryRequest, ApiResponseDTO<ProductListDTO?>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -32,7 +32,6 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.ProductHandlers
             }
             catch (Exception ex)
             {
-                // Hata loglaması yapılabilir
                 return new ApiResponseDTO<ProductListDTO?>(500, null, new List<string> { "Sorgulama işlemi sırasında bir sorun oluştu.", ex.Message });
             }
         }

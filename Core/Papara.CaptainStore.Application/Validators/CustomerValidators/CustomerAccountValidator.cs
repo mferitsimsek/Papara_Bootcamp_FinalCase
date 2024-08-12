@@ -13,7 +13,7 @@ public class CustomerAccountValidator : AbstractValidator<CustomerAccount>
            .GreaterThanOrEqualTo(0).WithMessage("Bakiye eksi değer olamaz.");
         RuleFor(account => account.AccountNumber)
             .NotEmpty().WithMessage("Hesap Numarası boş bırakılamaz.")
-            .GreaterThanOrEqualTo(100000).WithMessage("Hesap Numarası en az 6 haneli olmalıdır.") 
+            .GreaterThanOrEqualTo(100000).WithMessage("Hesap Numarası en az 6 haneli olmalıdır.")
             .LessThanOrEqualTo(99999999).WithMessage("Hesap Numarası en fazla 8 haneli olmalıdır.");
     }
 }

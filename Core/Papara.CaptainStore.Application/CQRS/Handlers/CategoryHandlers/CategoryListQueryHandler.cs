@@ -2,6 +2,7 @@
 using MediatR;
 using Papara.CaptainStore.Application.CQRS.Queries.CategoryQueries;
 using Papara.CaptainStore.Application.Interfaces;
+using Papara.CaptainStore.Application.Interfaces.CachingService;
 using Papara.CaptainStore.Domain.DTOs;
 using Papara.CaptainStore.Domain.DTOs.CategoryDTOs;
 
@@ -24,16 +25,22 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.CategoryHandlers
             try
             {
                 var cacheKey = "Categories";
-                var cachedData = await _cacheService.GetAsync<List<CategoryListDTO>>(cacheKey);
-                if (cachedData != null)
-                    return new ApiResponseDTO<List<CategoryListDTO>?>(200, cachedData, new List<string> { "Kategoriler başarıyla getirildi. -FromCache" });
+                if (_cacheService.IsConnected())
+                {
+                    var cachedData = await _cacheService.GetAsync<List<CategoryListDTO>>(cacheKey);
+                    if (cachedData != null)
+                        return new ApiResponseDTO<List<CategoryListDTO>?>(200, cachedData, new List<string> { "Kategoriler başarıyla getirildi. -FromCache" });
+                }
+
 
                 var categorys = await _unitOfWork.CategoryRepository.GetAllAsync();
 
                 if (categorys.Any())
                 {
                     var dtoCategorys = _mapper.Map<List<CategoryListDTO>>(categorys);
-                    await _cacheService.SetAsync(cacheKey, dtoCategorys, TimeSpan.FromDays(1), TimeSpan.FromHours(1));
+                    if (_cacheService.IsConnected())
+                        await _cacheService.SetAsync(cacheKey, dtoCategorys, TimeSpan.FromDays(1), TimeSpan.FromHours(1));
+
 
                     return new ApiResponseDTO<List<CategoryListDTO>?>(200, dtoCategorys, new List<string> { "Kategoriler başarıyla getirildi." });
                 }
@@ -42,9 +49,10 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.CategoryHandlers
             }
             catch (Exception ex)
             {
-                // Hata loglama işlemleri yapılabilir
                 return new ApiResponseDTO<List<CategoryListDTO>?>(500, null, new List<string> { "Kategori listesi getirilirken bir hata oluştu.", ex.Message });
             }
         }
     }
 }
+
+

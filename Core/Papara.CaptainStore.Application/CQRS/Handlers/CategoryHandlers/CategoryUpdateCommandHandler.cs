@@ -4,6 +4,7 @@ using MediatR;
 using Papara.CaptainStore.Application.CQRS.Commands.CategoryCommands;
 using Papara.CaptainStore.Application.Helpers;
 using Papara.CaptainStore.Application.Interfaces;
+using Papara.CaptainStore.Application.Interfaces.CachingService;
 using Papara.CaptainStore.Application.Services;
 using Papara.CaptainStore.Domain.DTOs;
 using Papara.CaptainStore.Domain.DTOs.CategoryDTOs;
@@ -55,16 +56,9 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.CategoryHandlers
             }
             catch (Exception ex)
             {
-                // Hata işleme
-                //return HandleException(ex);
                 return new ApiResponseDTO<object?>(500, null, new List<string> { "Güncelleme işlemi sırasında bir sorun oluştu.", ex.Message });
             }
 
         }
-        //private IDTO<object?> HandleException(Exception ex)
-        //{
-        //    // Exception logging veya daha ileri işlem yapılabilir
-        //    return new IDTO<object?>(500, null, new List<string> { "Kayıt işlemi sırasında bir sorun oluştu." });
-        //}
     }
 }

@@ -187,7 +187,9 @@ namespace Papara.CaptainStore.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -211,7 +213,7 @@ namespace Papara.CaptainStore.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
@@ -237,6 +239,10 @@ namespace Papara.CaptainStore.Persistence.Migrations
 
                     b.HasIndex("DistrictId");
 
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasFilter("[Email] IS NOT NULL");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -244,6 +250,14 @@ namespace Papara.CaptainStore.Persistence.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique()
+                        .HasFilter("[PhoneNumber] IS NOT NULL");
+
+                    b.HasIndex("UserName")
+                        .IsUnique()
+                        .HasFilter("[UserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -312,7 +326,7 @@ namespace Papara.CaptainStore.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 8, 12, 17, 15, 11, 906, DateTimeKind.Local).AddTicks(3814));
+                        .HasDefaultValue(new DateTime(2024, 8, 12, 17, 58, 29, 138, DateTimeKind.Local).AddTicks(4452));
 
                     b.Property<Guid>("CreatedUserId")
                         .HasColumnType("uniqueidentifier");
@@ -374,7 +388,7 @@ namespace Papara.CaptainStore.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 8, 12, 17, 15, 11, 904, DateTimeKind.Local).AddTicks(9218));
+                        .HasDefaultValue(new DateTime(2024, 8, 12, 17, 58, 29, 136, DateTimeKind.Local).AddTicks(8652));
 
                     b.Property<Guid>("CreatedUserId")
                         .HasColumnType("uniqueidentifier");
@@ -735,7 +749,7 @@ namespace Papara.CaptainStore.Persistence.Migrations
                     b.HasOne("Papara.CaptainStore.Domain.Entities.AppUserEntities.AppUser", "AppUser")
                         .WithOne("CustomerAccount")
                         .HasForeignKey("Papara.CaptainStore.Domain.Entities.CustomerEntities.CustomerAccount", "AppUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AppUser");

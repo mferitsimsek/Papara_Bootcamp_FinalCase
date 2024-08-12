@@ -12,17 +12,13 @@ using Papara.CaptainStore.Persistence.Repositories;
 
 namespace Papara.CaptainStore.Persistence.UnitOfWork
 {
-    public class UnitOfWork : IUnitOfWork,IDisposable
+    public class UnitOfWork : IUnitOfWork, IDisposable
     {
         private readonly MSSqlContext _context;
         private readonly Dictionary<Type, object> _repositories = new();
-
         public IRepository<AppUser> AppUserRepository { get; }
-
         public IRepository<AppRole> AppRoleRepository { get; }
-
         public IRepository<Product> ProductRepository { get; }
-
         public IRepository<Category> CategoryRepository { get; }
         public IRepository<CustomerAccount> CustomerAccountRepository { get; }
         public IRepository<Coupon> CouponRepository { get; }
@@ -30,11 +26,6 @@ namespace Papara.CaptainStore.Persistence.UnitOfWork
         public IRepository<Country> CountryRepository { get; }
         public IRepository<City> CityRepository { get; }
         public IRepository<District> DistrictRepository { get; }
-        //public IRepository<Customer> CustomerRepository { get; }
-        //public IRepository<CustomerDetail> CustomerDetailRepository { get; }
-        //public IRepository<CustomerAddress> CustomerAddressRepository { get; }
-        //public IRepository<CustomerPhone> CustomerPhoneRepository { get; }
-
         public UnitOfWork(MSSqlContext context)
         {
             _context = context;
@@ -45,9 +36,6 @@ namespace Papara.CaptainStore.Persistence.UnitOfWork
             CustomerAccountRepository = new Repository<CustomerAccount>(_context);
             CouponRepository = new Repository<Coupon>(_context);
             OrderRepository = new Repository<Order>(_context);
-            //CountryRepository = new Repository<Country>(_context);
-            //CityRepository = new Repository<City>(_context);
-            //DistrictRepository = new Repository<District>(_context);
         }
         public IRepository<T> GetRepository<T>() where T : class
         {
@@ -79,6 +67,7 @@ namespace Papara.CaptainStore.Persistence.UnitOfWork
                 throw new Exception(ex.Message);
             }
         }
+
 
         public void Dispose()
         {

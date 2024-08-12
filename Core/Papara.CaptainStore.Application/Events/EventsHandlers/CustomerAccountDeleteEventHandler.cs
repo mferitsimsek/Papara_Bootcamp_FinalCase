@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Papara.CaptainStore.Application.Interfaces;
+using Serilog;
 
 namespace Papara.CaptainStore.Application.Events.EventHandlers
 {
@@ -21,12 +22,12 @@ namespace Papara.CaptainStore.Application.Events.EventHandlers
                 if (customerAccount != null)
                 {
                     customerAccount.IsDeleted = true;
-                    await _unitOfWork.CustomerAccountRepository.SaveChangesAsync();
+                    await _unitOfWork.Complete();
                 }
             }
             catch (Exception ex)
             {
-                // Hata loglaması yapılabilir
+                Log.Error(ex, "Kullanıcı silinirken CustomerAccount silme işlemi sırasında hata oluştu. AppUserId: {AppUserId}", notification.AppUserId);
             }
         }
     }

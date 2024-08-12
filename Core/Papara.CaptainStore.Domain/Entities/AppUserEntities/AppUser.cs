@@ -16,7 +16,7 @@ namespace Papara.CaptainStore.Domain.Entities.AppUserEntities
         public City? City { get; set; }
         public int DistrictId { get; set; }
         public District? District { get; set; }
-        public virtual CustomerAccount CustomerAccount{ get; set; }
+        public virtual CustomerAccount CustomerAccount { get; set; }
 
     }
 }

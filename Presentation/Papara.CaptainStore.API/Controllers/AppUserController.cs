@@ -1,11 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Papara.CaptainStore.Application.CQRS.Commands.AppUserCommands;
 using Papara.CaptainStore.Application.CQRS.Queries.AppUserQueries;
 using Papara.CaptainStore.Application.Extensions;
-using Papara.CaptainStore.Domain.Entities.AppUserEntities;
 
 namespace Papara.CaptainStore.API.Controllers
 {
@@ -37,9 +35,9 @@ namespace Papara.CaptainStore.API.Controllers
         {
             var response = await _mediator.Send(request);
             return this.ReturnResponseForApiResponseDtoExtension(response);
-        }        
+        }
         [HttpPost]
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateAdminUser(AdminUserCreateCommandRequest request)
         {
             var response = await _mediator.Send(request);

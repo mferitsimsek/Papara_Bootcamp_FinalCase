@@ -28,7 +28,7 @@ namespace Papara.CaptainStore.Application.Services
             try
             {
                 await _unitOfWork.GetRepository<T>().CreateAsync(entity);
-                await _unitOfWork.GetRepository<T>().SaveChangesAsync();
+                await _unitOfWork.Complete();
                 return new ApiResponseDTO<object?>(201, entity, new List<string> { "Kayıt işlemi başarılı." });
             }
             catch (Exception ex)
@@ -43,7 +43,7 @@ namespace Papara.CaptainStore.Application.Services
             try
             {
                 await _unitOfWork.GetRepository<T>().UpdateAsync(entity);
-                await _unitOfWork.GetRepository<T>().SaveChangesAsync();
+                await _unitOfWork.Complete();
                 return new ApiResponseDTO<object?>(201, entity, new List<string> { "Güncelleme işlemi başarılı." });
             }
             catch (Exception ex)

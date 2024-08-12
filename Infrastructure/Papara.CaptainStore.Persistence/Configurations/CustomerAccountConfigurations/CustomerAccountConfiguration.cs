@@ -17,7 +17,7 @@ namespace Papara.CaptainStore.Persistence.Configurations.CustomerAccountConfigur
             builder.Property(x => x.CreatedDate).IsRequired().HasDefaultValue(DateTime.Now);
             builder.Property(x => x.CreatedUserId).IsRequired();
             builder.Property(x => x.IsDeleted).IsRequired().HasDefaultValue(false);
-            builder.HasOne(x => x.AppUser).WithMany().HasForeignKey(x => x.AppUserId).OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(x => x.AppUser).WithMany().HasForeignKey(x => x.AppUserId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 

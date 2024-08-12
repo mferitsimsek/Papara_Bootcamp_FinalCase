@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Papara.CaptainStore.Application.CQRS.Commands.AppUserCommands;
 using Papara.CaptainStore.Application.Events;
+using Papara.CaptainStore.Application.Interfaces;
 using Papara.CaptainStore.Domain.DTOs;
 using Papara.CaptainStore.Domain.Entities.AppUserEntities;
 
@@ -11,10 +12,12 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.AppUserHandlers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IMediator _mediator;
-        public AppUserDeleteCommandHandler(UserManager<AppUser> userManager, IMediator mediator)
+        private readonly IUnitOfWork _unitOfWork;
+        public AppUserDeleteCommandHandler(UserManager<AppUser> userManager, IMediator mediator, IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _mediator = mediator;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<ApiResponseDTO<object?>> Handle(AppUserDeleteCommandRequest request, CancellationToken cancellationToken)
@@ -25,19 +28,15 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.AppUserHandlers
                 if (user == null)
                     return new ApiResponseDTO<object?>(404, null, new List<string> { "Silinecek kullanıcı bulunamadı." });
 
-
-                var result = await _userManager.DeleteAsync(user);
-                if (!result.Succeeded)
-                    return new ApiResponseDTO<object?>(400, null, result.Errors.Select(e => e.Description).ToList());
-
+                user.IsDeleted = true;
+                await _unitOfWork.AppUserRepository.UpdateAsync(user);
                 //Kullanıcı silme  başarılı ise Customer Account silme event'i tetikleniyor.
                 await _mediator.Publish(new UserDeletedEvent(user.Id));
-
+                await _unitOfWork.Complete();
                 return new ApiResponseDTO<object?>(200, null, new List<string> { "Silme işlemi başarılı." });
             }
             catch (Exception ex)
             {
-                // Hata loglaması yapılabilir
                 return new ApiResponseDTO<object?>(500, null, new List<string> { "Silme işlemi sırasında bir sorun oluştu.", ex.Message });
             }
         }

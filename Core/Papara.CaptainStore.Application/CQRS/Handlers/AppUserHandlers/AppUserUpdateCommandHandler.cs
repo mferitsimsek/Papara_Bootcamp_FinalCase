@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Papara.CaptainStore.Application.CQRS.Commands.AppUserCommands;
-using Papara.CaptainStore.Application.Interfaces;
+using Papara.CaptainStore.Application.Interfaces.UserService;
 using Papara.CaptainStore.Domain.DTOs;
 using Papara.CaptainStore.Domain.Entities.AppUserEntities;
 
@@ -41,7 +41,6 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.AppUserHandlers
             {
                 return new ApiResponseDTO<object?>(500, null, new List<string> { "Güncelleme işlemi sırasında bir sorun oluştu.", ex.Message });
             }
-
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using Papara.CaptainStore.Application.Interfaces;
+using Papara.CaptainStore.Application.Interfaces.TokenService;
 using Papara.CaptainStore.Domain.Consts;
 using Papara.CaptainStore.Domain.DTOs;
 using System.IdentityModel.Tokens.Jwt;

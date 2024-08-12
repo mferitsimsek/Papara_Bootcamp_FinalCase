@@ -1,5 +1,4 @@
-﻿using Papara.CaptainStore.Domain.Entities.BaseEntities;
-using Papara.CaptainStore.Domain.Entities.CategoryEntities;
+﻿using Papara.CaptainStore.Domain.Entities.CategoryEntities;
 
 namespace Papara.CaptainStore.Domain.Entities.ProductEntities
 {

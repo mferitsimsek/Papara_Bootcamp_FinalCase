@@ -3,7 +3,7 @@ using FluentValidation;
 using MediatR;
 using Papara.CaptainStore.Application.CQRS.Commands.CouponCommands;
 using Papara.CaptainStore.Application.Helpers;
-using Papara.CaptainStore.Application.Services;
+using Papara.CaptainStore.Application.Interfaces.CouponServices;
 using Papara.CaptainStore.Application.Tools;
 using Papara.CaptainStore.Domain.DTOs;
 using Papara.CaptainStore.Domain.DTOs.CouponDTOs;
@@ -16,8 +16,8 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.CouponHandlers
         private readonly IMapper _mapper;
         private readonly IValidator<Coupon> _validator;
         private readonly ISessionContext _sessionContext;
-        private readonly CouponService _couponService;
-        public CouponCreateCommandHandler(IMapper mapper, IValidator<Coupon> validator, ISessionContext sessionContext, CouponService couponService)
+        private readonly ICouponService _couponService;
+        public CouponCreateCommandHandler(IMapper mapper, IValidator<Coupon> validator, ISessionContext sessionContext, ICouponService couponService)
         {
             _mapper = mapper;
             _validator = validator;
@@ -55,15 +55,8 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.CouponHandlers
             }
             catch (Exception ex)
             {
-                // Hata işleme
-                //return HandleException(ex);
                 return new ApiResponseDTO<object?>(500, null, new List<string> { "Kupon oluşturma işlemi sırasında bir sorun oluştu.", ex.Message });
             }
         }
-        //private IDTO<object?> HandleException(Exception ex)
-        //{
-        //    // Exception logging veya daha ileri işlem yapılabilir
-        //    return new IDTO<object?>(500, null, new List<string> { "Kupon oluşturma işlemi sırasında bir sorun oluştu." });
-        //}
     }
 }

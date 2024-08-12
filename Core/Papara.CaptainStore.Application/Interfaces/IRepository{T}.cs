@@ -6,7 +6,6 @@ namespace Papara.CaptainStore.Application.Interfaces
     {
         Task<List<T>> GetAllAsync(List<Expression<Func<T, object>>>? includes = null);
         Task<List<T>> GetAllByFilterAsync(Expression<Func<T, bool>> filter, List<Expression<Func<T, object>>>? includes = null);
-        //Task<T?> GetByIdAsync(object id, List<Expression<Func<T, object>>>? includes = null);
         Task<T?> GetByIdAsync(object id, params string[] includes);
         Task<T?> GetByFilterAsync(Expression<Func<T, bool>> filter, List<Expression<Func<T, object>>>? includes = null);
         Task<T> CreateAsync(T entity);

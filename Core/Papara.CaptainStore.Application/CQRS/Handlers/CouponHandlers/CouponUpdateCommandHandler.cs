@@ -4,7 +4,7 @@ using MediatR;
 using Papara.CaptainStore.Application.CQRS.Commands.CouponCommands;
 using Papara.CaptainStore.Application.Helpers;
 using Papara.CaptainStore.Application.Interfaces;
-using Papara.CaptainStore.Application.Services;
+using Papara.CaptainStore.Application.Interfaces.CouponServices;
 using Papara.CaptainStore.Domain.DTOs;
 using Papara.CaptainStore.Domain.DTOs.CouponDTOs;
 using Papara.CaptainStore.Domain.Entities.CouponEntities;
@@ -17,14 +17,15 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.CouponHandlers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IValidator<Coupon> _validator;
         private readonly ISessionContext _sessionContext;
-        private readonly CouponService _couponService;
+        private readonly ICouponService _couponService;
 
-        public CouponUpdateCommandHandler(IMapper mapper, IValidator<Coupon> validator, IUnitOfWork unitOfWork, ISessionContext sessionContext)
+        public CouponUpdateCommandHandler(IMapper mapper, IValidator<Coupon> validator, IUnitOfWork unitOfWork, ISessionContext sessionContext, ICouponService couponService)
         {
             _mapper = mapper;
             _validator = validator;
             _unitOfWork = unitOfWork;
             _sessionContext = sessionContext;
+            _couponService = couponService;
         }
         public async Task<ApiResponseDTO<object?>> Handle(CouponUpdateCommandRequest request, CancellationToken cancellationToken)
         {
@@ -44,23 +45,16 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.CouponHandlers
                     return result;
                 }
 
-                await _couponService.UpdateEntity(result.data as Coupon);
+                await _couponService.UpdateCoupon(result.data as Coupon);
 
                 return new ApiResponseDTO<object?>(201, _mapper.Map<CouponListDTO>(result.data), new List<string> { "Kupon güncelleme işlemi başarılı." });
             }
             catch (Exception ex)
             {
-                // Hata işleme
-                //return HandleException(ex);
                 return new ApiResponseDTO<object?>(500, null, new List<string> { "Kupon güncelleme işlemi sırasında bir sorun oluştu.", ex.Message });
             }
         }
 
-        //private IDTO<object?> HandleException(Exception ex)
-        //{
-        //    // Exception logging veya daha ileri işlem yapılabilir
-        //    return new IDTO<object?>(500, null, new List<string> { "Kupon güncelleme işlemi sırasında bir sorun oluştu." });
-        //}
     }
 }
 

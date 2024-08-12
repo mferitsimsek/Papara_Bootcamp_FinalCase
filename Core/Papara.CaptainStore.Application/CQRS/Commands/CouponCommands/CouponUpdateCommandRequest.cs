@@ -17,8 +17,8 @@ namespace Papara.CaptainStore.Application.CQRS.Commands.CouponCommands
         public int UsedCount { get; set; }
         public int MaxUsageCount { get; set; }
         [JsonIgnore]
-        public DateTime UpdatedDate { get; set; }   
+        public DateTime UpdatedDate { get; set; }
         [JsonIgnore]
-        public Guid UpdatedUserId{ get; set; }
+        public Guid UpdatedUserId { get; set; }
     }
 }

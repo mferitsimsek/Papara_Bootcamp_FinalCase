@@ -4,7 +4,7 @@ using MediatR;
 using Papara.CaptainStore.Application.CQRS.Commands.ProductCommands;
 using Papara.CaptainStore.Application.Helpers;
 using Papara.CaptainStore.Application.Interfaces;
-using Papara.CaptainStore.Application.Services;
+using Papara.CaptainStore.Application.Interfaces.ProductServices;
 using Papara.CaptainStore.Domain.DTOs;
 using Papara.CaptainStore.Domain.DTOs.ProductDTOs;
 using Papara.CaptainStore.Domain.Entities.ProductEntities;
@@ -17,10 +17,10 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.ProductHandlers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IValidator<Product> _validator;
         private readonly ISessionContext _sessionContext;
-        private readonly ProductService _productService;
+        private readonly IProductService _productService;
 
 
-        public ProductUpdateCommandHandler(IMapper mapper, IValidator<Product> validator, IUnitOfWork unitOfWork, ISessionContext sessionContext, ProductService productService)
+        public ProductUpdateCommandHandler(IMapper mapper, IValidator<Product> validator, IUnitOfWork unitOfWork, ISessionContext sessionContext, IProductService productService)
         {
             _mapper = mapper;
             _validator = validator;
@@ -28,7 +28,6 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.ProductHandlers
             _sessionContext = sessionContext;
             _productService = productService;
         }
-
         public async Task<ApiResponseDTO<object?>> Handle(ProductUpdateCommandRequest request, CancellationToken cancellationToken)
         {
             try
@@ -47,22 +46,14 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.ProductHandlers
                     return result;
                 }
 
-                await _productService.UpdateEntity(result.data as Product);
+                await _productService.UpdateProduct(result.data as Product);
 
                 return new ApiResponseDTO<object?>(201, _mapper.Map<ProductListDTO>(result.data), new List<string> { "Ürün Güncelleme işlemi başarılı." });
             }
             catch (Exception ex)
             {
-                // Hata işleme
-                //return HandleException(ex);
                 return new ApiResponseDTO<object?>(500, null, new List<string> { "Ürün Güncelleme işlemi sırasında bir sorun oluştu.", ex.Message });
             }
         }
-
-        //private IDTO<object?> HandleException(Exception ex)
-        //{
-        //    // Exception logging veya daha ileri işlem yapılabilir
-        //    return new IDTO<object?>(500, null, new List<string> { "Kayıt işlemi sırasında bir sorun oluştu." });
-        //}
     }
 }

@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace Papara.CaptainStore.Application.CQRS.Commands.CouponCommands
 {
-    public class CouponCreateCommandRequest : IRequest<ApiResponseDTO<object?>>,IHasCreatedUser
+    public class CouponCreateCommandRequest : IRequest<ApiResponseDTO<object?>>, IHasCreatedUser
     {
         public string? CouponCode { get; set; } // İsteğe bağlı 
         public string? CouponStartChars { get; set; } //Max 3 karakter olacak şekilde ayarlandı. Geri kalan 7 karakter otomatik oluşturulacak.

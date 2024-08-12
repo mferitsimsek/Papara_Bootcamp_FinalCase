@@ -4,6 +4,7 @@ using MediatR;
 using Papara.CaptainStore.Application.CQRS.Commands.OrderCommands;
 using Papara.CaptainStore.Application.Helpers;
 using Papara.CaptainStore.Application.Interfaces;
+using Papara.CaptainStore.Application.Interfaces.OrderService;
 using Papara.CaptainStore.Domain.DTOs;
 using Papara.CaptainStore.Domain.Entities.OrderEntities;
 
@@ -57,7 +58,7 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.OrderHandlers
                 var finalAmounts = _orderService.CalculateFinalAmounts(basketDetails.BasketTotal, couponDetails.CouponDiscountAmount, couponDetails.DiscountType, userAccount.Points);
                 await _orderService.UpdateUserAndCoupon(finalAmounts, couponDetails.Coupon, userAccount, basketDetails);
 
-                var order = _orderService.CreateOrder(request, orderNumber, basketDetails.BasketTotal, couponDetails.CouponDiscountAmount, finalAmounts.UsedPointsTotal,finalAmounts.PaidAmount);
+                var order = _orderService.CreateOrder(request, orderNumber, basketDetails.BasketTotal, couponDetails.CouponDiscountAmount, finalAmounts.UsedPointsTotal, finalAmounts.PaidAmount);
                 await _orderService.SaveOrder(order);
 
                 return new ApiResponseDTO<object?>(201, order, new List<string> { "Sipariş başarıyla oluşturuldu." });

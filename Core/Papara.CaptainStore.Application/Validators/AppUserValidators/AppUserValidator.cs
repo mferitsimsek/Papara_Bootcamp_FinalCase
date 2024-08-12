@@ -1,14 +1,9 @@
 ﻿using FluentValidation;
 using Papara.CaptainStore.Domain.Entities.AppUserEntities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Papara.CaptainStore.Application.Validators.AppUserValidators
 {
-    public class AppUserValidator:AbstractValidator<AppUser>
+    public class AppUserValidator : AbstractValidator<AppUser>
     {
         public AppUserValidator()
         {

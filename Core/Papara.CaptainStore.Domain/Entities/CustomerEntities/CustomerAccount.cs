@@ -3,7 +3,7 @@ using Papara.CaptainStore.Domain.Entities.BaseEntities;
 
 namespace Papara.CaptainStore.Domain.Entities.CustomerEntities
 {
-    public class CustomerAccount:BaseEntity
+    public class CustomerAccount : BaseEntity
     {
         public Guid AppUserId { get; set; }
         public virtual AppUser AppUser { get; set; }

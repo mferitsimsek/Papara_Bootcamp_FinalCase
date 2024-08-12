@@ -3,8 +3,8 @@ using FluentValidation;
 using MediatR;
 using Papara.CaptainStore.Application.CQRS.Commands.CategoryCommands;
 using Papara.CaptainStore.Application.Helpers;
-using Papara.CaptainStore.Application.Interfaces;
-using Papara.CaptainStore.Application.Services;
+using Papara.CaptainStore.Application.Interfaces.CachingService;
+using Papara.CaptainStore.Application.Interfaces.CategoryServices;
 using Papara.CaptainStore.Domain.DTOs;
 using Papara.CaptainStore.Domain.DTOs.CategoryDTOs;
 using Papara.CaptainStore.Domain.Entities.CategoryEntities;
@@ -14,17 +14,15 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.CategoryHandlers
     public class CategoryCreateCommandHandler : IRequestHandler<CategoryCreateCommandRequest, ApiResponseDTO<object?>>
     {
         private readonly IMapper _mapper;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IValidator<Category> _validator;
         private readonly ISessionContext _sessionContext;
-        private readonly CategoryService _categoryService;
+        private readonly ICategoryService _categoryService;
         private readonly ICacheService _cacheService;
 
-        public CategoryCreateCommandHandler(IMapper mapper, IValidator<Category> validator, IUnitOfWork unitOfWork, ISessionContext sessionContext, CategoryService categoryService, ICacheService cacheService)
+        public CategoryCreateCommandHandler(IMapper mapper, IValidator<Category> validator, ISessionContext sessionContext, ICategoryService categoryService, ICacheService cacheService)
         {
             _mapper = mapper;
             _validator = validator;
-            _unitOfWork = unitOfWork;
             _sessionContext = sessionContext;
             _categoryService = categoryService;
             _cacheService = cacheService;
@@ -58,36 +56,8 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.CategoryHandlers
             }
             catch (Exception ex)
             {
-                // Hata işleme
-                //return HandleException(ex);
                 return new ApiResponseDTO<object?>(500, null, new List<string> { "Kayıt işlemi sırasında bir sorun oluştu.", ex.Message });
             }
         }
-
-        private async Task<ApiResponseDTO<object?>?> CheckCategoryIsExist(string categoryName)
-        {
-            var categoryExist = await _unitOfWork.CategoryRepository.GetByFilterAsync(p => p.CategoryName == categoryName);
-            if (categoryExist != null)
-            {
-                return new ApiResponseDTO<object?>(303, null, new List<string> { "Eklemek istediğiniz kategori sistemde kayıtlıdır." });
-            }
-            return null;
-        }
-
-        private ApiResponseDTO<object?>? Validate(Category category)
-        {
-            var validationResult = _validator.Validate(category);
-            if (!validationResult.IsValid)
-            {
-                return new ApiResponseDTO<object?>(303, null, validationResult.Errors.Select(x => x.ErrorMessage).ToList());
-            }
-            return null;
-        }
-
-        //private IDTO<object?> HandleException(Exception ex)
-        //{
-        //    // Exception logging veya daha ileri işlem yapılabilir
-        //    return new IDTO<object?>(500, null, new List<string> { "Kayıt işlemi sırasında bir sorun oluştu." });
-        //}
     }
 }

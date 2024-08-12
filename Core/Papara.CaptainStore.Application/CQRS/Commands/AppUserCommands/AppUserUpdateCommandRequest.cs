@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Papara.CaptainStore.Domain.DTOs;
 
 namespace Papara.CaptainStore.Application.CQRS.Commands.AppUserCommands

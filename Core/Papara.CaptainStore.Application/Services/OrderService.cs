@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Papara.CaptainStore.Application.CQRS.Commands.OrderCommands;
 using Papara.CaptainStore.Application.Interfaces;
+using Papara.CaptainStore.Application.Interfaces.OrderService;
 using Papara.CaptainStore.Domain.DTOs.OrderDTOs;
 using Papara.CaptainStore.Domain.Entities.CouponEntities;
 using Papara.CaptainStore.Domain.Entities.CustomerEntities;
@@ -22,7 +23,7 @@ namespace Papara.CaptainStore.Application.Services
 
 
 
-        public Order CreateOrder(OrderCreateCommandRequest request, string orderNumber, decimal basketTotal, decimal couponDiscountAmount, decimal usedPointsTotal,decimal paidAmount)
+        public Order CreateOrder(OrderCreateCommandRequest request, string orderNumber, decimal basketTotal, decimal couponDiscountAmount, decimal usedPointsTotal, decimal paidAmount)
         {
             var order = _mapper.Map<Order>(request);
 
@@ -91,7 +92,7 @@ namespace Papara.CaptainStore.Application.Services
 
             order.PaymentCompleted = paymentCompleted;
             await _unitOfWork.OrderRepository.UpdateAsync(order);
-            await _unitOfWork.OrderRepository.SaveChangesAsync();
+            await _unitOfWork.Complete();
         }
 
         public async Task UpdateUserAndCoupon(OrderFinalAmountsDTO finalAmounts, Coupon coupon, CustomerAccount userAccount, OrderBasketDetailsResultDTO basketDetailsResultDTO)
@@ -100,6 +101,7 @@ namespace Papara.CaptainStore.Application.Services
             {
                 coupon.UsedCount++;
                 await _unitOfWork.CouponRepository.UpdateAsync(coupon);
+                await _unitOfWork.Complete();
             }
 
             decimal earnedPoints = finalAmounts.PaidAmount * (basketDetailsResultDTO.PointsPercentageTotal / 100);
@@ -109,6 +111,7 @@ namespace Papara.CaptainStore.Application.Services
             userAccount.Points = Math.Max(0, userAccount.Points - finalAmounts.UsedPointsTotal) + earnedPoints;
 
             await _unitOfWork.CustomerAccountRepository.UpdateAsync(userAccount);
+            await _unitOfWork.Complete();
         }
 
         public async Task<OrderCouponDetailsResultDTO> ValidateCouponCode(string couponCode)
@@ -153,9 +156,9 @@ namespace Papara.CaptainStore.Application.Services
                     UsedPointsTotal = 0
                 };
             }
-           
+
             finalTotal = basketTotal - couponDiscountAmount;
-                
+
             if (finalTotal > pointsTotal)
             {
                 paidAmount = finalTotal - pointsTotal;
@@ -182,7 +185,7 @@ namespace Papara.CaptainStore.Application.Services
                 throw new ArgumentException("Geçersiz sipariş ID'si");
             }
             var total = order.BasketTotal - order.CouponDiscountAmount - order.PointsTotal;
-            return total < 0 ||order.PaymentCompleted==true ? 0 : total;
+            return total < 0 || order.PaymentCompleted == true ? 0 : total;
         }
     }
 }

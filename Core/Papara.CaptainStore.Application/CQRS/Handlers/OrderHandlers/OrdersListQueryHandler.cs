@@ -22,7 +22,7 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.OrderHandlers
         {
             try
             {
-                var orders = await _unitOfWork.OrderRepository.GetAllAsync([order=>order.OrderDetails]);
+                var orders = await _unitOfWork.OrderRepository.GetAllAsync([order => order.OrderDetails]);
 
                 if (orders.Any())
                 {
@@ -34,7 +34,6 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.OrderHandlers
             }
             catch (Exception ex)
             {
-                // Hata loglama işlemleri yapılabilir
                 return new ApiResponseDTO<List<OrderListDTO>?>(500, null, new List<string> { "Sipariş listesi getirilirken bir hata oluştu.", ex.Message });
             }
         }

@@ -33,7 +33,6 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.CustomerAccountHandlers
             }
             catch (Exception ex)
             {
-                // Hata loglaması yapılabilir
                 return new ApiResponseDTO<CustomerAccountListDTO?>(500, null, new List<string> { "Sorgulama işlemi sırasında bir sorun oluştu.", ex.Message });
             }
         }

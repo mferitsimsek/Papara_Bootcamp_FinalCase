@@ -8,7 +8,7 @@ namespace Papara.CaptainStore.Domain.DTOs.OrderDTOs
         public bool IsSuccess { get; set; }
         public Coupon Coupon { get; set; }
         public decimal CouponDiscountAmount { get; set; }
-        public DiscountType DiscountType{ get; set; }
+        public DiscountType DiscountType { get; set; }
         public List<string> Errors { get; set; }
     }
 }

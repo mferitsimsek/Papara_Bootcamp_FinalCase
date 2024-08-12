@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using FluentValidation;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Papara.CaptainStore.Application.CQRS.Commands.AppUserCommands;
 using Papara.CaptainStore.Domain.DTOs;
@@ -28,7 +26,7 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.AppUserHandlers
                 }
 
                 var roles = await _userManager.GetRolesAsync(user);
-                var resultRemove = await _userManager.RemoveFromRolesAsync(user, roles); 
+                var resultRemove = await _userManager.RemoveFromRolesAsync(user, roles);
 
                 if (!resultRemove.Succeeded)
                 {
@@ -46,8 +44,7 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.AppUserHandlers
             }
             catch (Exception ex)
             {
-                // Hata loglama yapılabilir
-                return new ApiResponseDTO<object?>(500, null, new List<string> { "Rol ayarlanırken bir hata oluştu." , ex.Message });
+                return new ApiResponseDTO<object?>(500, null, new List<string> { "Rol ayarlanırken bir hata oluştu.", ex.Message });
             }
         }
     }

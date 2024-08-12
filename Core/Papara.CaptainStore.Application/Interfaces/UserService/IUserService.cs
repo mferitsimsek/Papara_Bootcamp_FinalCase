@@ -1,7 +1,7 @@
 ﻿using Papara.CaptainStore.Domain.DTOs;
 using Papara.CaptainStore.Domain.Entities.AppUserEntities;
 
-namespace Papara.CaptainStore.Application.Interfaces
+namespace Papara.CaptainStore.Application.Interfaces.UserService
 {
     public interface IUserService
     {

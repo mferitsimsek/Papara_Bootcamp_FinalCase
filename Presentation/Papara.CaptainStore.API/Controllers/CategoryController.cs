@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Papara.CaptainStore.Application.CQRS.Commands.CategoryCommands;
 using Papara.CaptainStore.Application.CQRS.Queries.CategoryQueries;
 using Papara.CaptainStore.Application.Extensions;
+using Serilog;
 
 namespace Papara.CaptainStore.API.Controllers
 {
@@ -20,6 +21,7 @@ namespace Papara.CaptainStore.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllCategorys()
         {
+            Log.Warning("Uyarı Mesajı.");
             var response = await _mediator.Send(new CategoryListQueryRequest());
             return this.ReturnResponseForApiResponseDtoExtension(response);
         }

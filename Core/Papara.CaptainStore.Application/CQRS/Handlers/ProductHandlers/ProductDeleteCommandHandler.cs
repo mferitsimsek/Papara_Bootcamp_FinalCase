@@ -30,7 +30,7 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.ProductHandlers
             }
             catch (Exception ex)
             {
-                // Hata loglaması yapılabilir
+
                 return new ApiResponseDTO<object?>(500, null, new List<string> { "Silme işlemi sırasında bir sorun oluştu.", ex.Message });
             }
         }

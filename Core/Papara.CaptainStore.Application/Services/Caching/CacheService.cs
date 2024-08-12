@@ -1,17 +1,19 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
-using Papara.CaptainStore.Application.Interfaces;
+using Papara.CaptainStore.Application.Interfaces.CachingService;
+using StackExchange.Redis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Papara.CaptainStore.Application.Services
+namespace Papara.CaptainStore.Application.Services.Caching
 {
     public class CacheService : ICacheService
     {
         private readonly IDistributedCache _distributedCache;
-
-        public CacheService(IDistributedCache distributedCache)
+        private readonly IConnectionMultiplexer _connectionMultiplexer;
+        public CacheService(IDistributedCache distributedCache, IConnectionMultiplexer connectionMultiplexer)
         {
             _distributedCache = distributedCache;
+            _connectionMultiplexer = connectionMultiplexer;
         }
 
         public async Task<T> GetAsync<T>(string key)
@@ -25,10 +27,10 @@ namespace Papara.CaptainStore.Application.Services
                 };
                 return JsonSerializer.Deserialize<T>(cachedData, jsonOptions);
             }
-            return default(T);
+            return default;
         }
 
-        public async Task SetAsync<T>(string key, T value,TimeSpan absoluteExpiration,TimeSpan slidingExpiration)
+        public async Task SetAsync<T>(string key, T value, TimeSpan absoluteExpiration, TimeSpan slidingExpiration)
         {
             var options = new DistributedCacheEntryOptions()
                .SetAbsoluteExpiration(absoluteExpiration)
@@ -45,5 +47,11 @@ namespace Papara.CaptainStore.Application.Services
         {
             await _distributedCache.RemoveAsync(key);
         }
+
+        public bool IsConnected()
+        {
+            return _connectionMultiplexer.IsConnected;
+        }
+
     }
 }

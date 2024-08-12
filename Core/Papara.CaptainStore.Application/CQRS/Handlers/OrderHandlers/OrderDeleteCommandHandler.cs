@@ -20,7 +20,7 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.OrderHandlers
         {
             try
             {
-                var order = await _unitOfWork.OrderRepository.GetByIdAsync(request.OrderId,"OrderDetails");
+                var order = await _unitOfWork.OrderRepository.GetByIdAsync(request.OrderId, "OrderDetails");
                 if (order == null)
                 {
                     return new ApiResponseDTO<object?>(404, null, new List<string> { "Silinecek sipariş bulunamadı." });
@@ -32,13 +32,12 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.OrderHandlers
                 order.IsDeleted = true;
 
                 await _unitOfWork.OrderRepository.UpdateAsync(order);
-                await _unitOfWork.OrderRepository.SaveChangesAsync();
+                await _unitOfWork.Complete();
 
                 return new ApiResponseDTO<object?>(200, null, new List<string> { "Silme işlemi başarılı." });
             }
             catch (Exception ex)
             {
-                // Hata loglaması yapılabilir
                 return new ApiResponseDTO<object?>(500, null, new List<string> { "Silme işlemi sırasında bir sorun oluştu.", ex.Message });
             }
         }

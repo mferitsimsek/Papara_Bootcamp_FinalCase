@@ -34,7 +34,6 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.AppUserHandlers
             }
             catch (Exception ex)
             {
-                // Hata loglama işlemleri yapılabilir
                 return new ApiResponseDTO<List<AppUserListDTO>?>(500, null, new List<string> { "Kullanıcı listesi getirilirken bir hata oluştu.", ex.Message });
             }
         }

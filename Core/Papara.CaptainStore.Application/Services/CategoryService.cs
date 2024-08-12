@@ -1,10 +1,11 @@
 ﻿using Papara.CaptainStore.Application.Interfaces;
+using Papara.CaptainStore.Application.Interfaces.CategoryServices;
 using Papara.CaptainStore.Domain.DTOs;
 using Papara.CaptainStore.Domain.Entities.CategoryEntities;
 
 namespace Papara.CaptainStore.Application.Services
 {
-    public class CategoryService : BaseService<Category>
+    public class CategoryService : BaseService<Category>, ICategoryService
     {
         public CategoryService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {

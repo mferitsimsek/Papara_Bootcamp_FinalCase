@@ -2,8 +2,8 @@
 using MediatR;
 using Papara.CaptainStore.Application.CQRS.Queries.OrderQueries;
 using Papara.CaptainStore.Application.Interfaces;
-using Papara.CaptainStore.Domain.DTOs.OrderDTOs;
 using Papara.CaptainStore.Domain.DTOs;
+using Papara.CaptainStore.Domain.DTOs.OrderDTOs;
 
 namespace Papara.CaptainStore.Application.CQRS.Handlers.OrderHandlers
 {
@@ -32,7 +32,6 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.OrderHandlers
             }
             catch (Exception ex)
             {
-                // Hata loglaması yapılabilir
                 return new ApiResponseDTO<OrderListDTO?>(500, null, new List<string> { "Sorgulama işlemi sırasında bir sorun oluştu.", ex.Message });
             }
         }

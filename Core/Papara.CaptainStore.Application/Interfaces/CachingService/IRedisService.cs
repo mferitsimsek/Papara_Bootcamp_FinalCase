@@ -1,6 +1,6 @@
 ﻿using StackExchange.Redis;
 
-namespace Papara.CaptainStore.Application.Interfaces
+namespace Papara.CaptainStore.Application.Interfaces.CachingService
 {
     public interface IRedisService
     {

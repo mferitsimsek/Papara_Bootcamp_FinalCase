@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace Papara.CaptainStore.Application.CQRS.Commands.CategoryCommands
 {
-    public class CategoryCreateCommandRequest : IRequest<ApiResponseDTO<object?>>,IHasCreatedUser
+    public class CategoryCreateCommandRequest : IRequest<ApiResponseDTO<object?>>, IHasCreatedUser
     {
         public required string CategoryName { get; set; }
         public required string Url { get; set; }

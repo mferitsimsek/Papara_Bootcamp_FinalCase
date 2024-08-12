@@ -53,19 +53,6 @@ namespace Papara.CaptainStore.Persistence.Repositories
             }
             return await query.AsNoTracking().FirstOrDefaultAsync(filter);
         }
-
-        //public async Task<T?> GetByIdAsync(object id, List<Expression<Func<T, object>>>? includes = null)
-        //{
-        //    var entity = await _context.Set<T>().FindAsync(id);
-        //    if (entity != null && includes != null)
-        //    {
-        //        for (var i = 0; i < includes.Count; i++)
-        //        {
-        //            await _context.Entry(entity).Reference(includes[i]!).LoadAsync();
-        //        }
-        //    }
-        //    return entity;
-        //}
         public async Task<T?> GetByIdAsync(object id, params string[] includes)
         {
             var entity = await _context.Set<T>().FindAsync(id);
@@ -91,7 +78,6 @@ namespace Papara.CaptainStore.Persistence.Repositories
         public async Task<T> CreateAsync(T entity)
         {
             await _context.Set<T>().AddAsync(entity);
-            await _context.SaveChangesAsync();
             return entity;
         }
 
@@ -100,7 +86,6 @@ namespace Papara.CaptainStore.Persistence.Repositories
             try
             {
                 _context.Set<T>().Remove(entity);
-                await _context.SaveChangesAsync();
                 return true;
             }
             catch (Exception)
@@ -112,7 +97,6 @@ namespace Papara.CaptainStore.Persistence.Repositories
         public async Task<T> UpdateAsync(T entity)
         {
             _context.Set<T>().Update(entity);
-            await _context.SaveChangesAsync();
             return entity;
         }
 

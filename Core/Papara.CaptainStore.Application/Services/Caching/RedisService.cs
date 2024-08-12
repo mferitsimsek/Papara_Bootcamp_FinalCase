@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Options;
-using Papara.CaptainStore.Application.Interfaces;
+using Papara.CaptainStore.Application.Interfaces.CachingService;
 using StackExchange.Redis;
 
-namespace Papara.CaptainStore.Application.Services
+namespace Papara.CaptainStore.Application.Services.Caching
 {
     public class RedisService : IRedisService
     {

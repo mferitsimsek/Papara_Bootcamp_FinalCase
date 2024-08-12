@@ -29,7 +29,6 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.OrderHandlers
                     return new ApiResponseDTO<List<OrderListDTO>?>(200, orderListDTOs, new List<string> { "Siparişler başarıyla getirildi." });
                 }
                 return new ApiResponseDTO<List<OrderListDTO>?>(200, null, new List<string> { "Listelenecek sipariş bulunamadı." });
-
             }
             catch (Exception ex)
             {

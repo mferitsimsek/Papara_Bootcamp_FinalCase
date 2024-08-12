@@ -13,7 +13,7 @@ namespace Papara.CaptainStore.Application.Mappings
             CreateMap<AppUserCreateCommandRequest, AppUser>().ReverseMap();
             CreateMap<AdminUserCreateCommandRequest, AppUser>().ReverseMap();
             CreateMap<AppUser, AppUserListDTO>().ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id)).ReverseMap();
-            CreateMap<AppUser, AppUserLoginDTO>().ForMember(dest=>dest.AppUserId,opt=>opt.MapFrom(src=>src.Id)).ReverseMap();
+            CreateMap<AppUser, AppUserLoginDTO>().ForMember(dest => dest.AppUserId, opt => opt.MapFrom(src => src.Id)).ReverseMap();
 
             CreateMap<AppUserUpdateCommandRequest, AppUser>().ReverseMap();
 

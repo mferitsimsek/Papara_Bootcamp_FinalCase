@@ -23,8 +23,8 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.OrderHandlers
         {
             try
             {
-                var userId =_sessionContext.Session.UserId;
-                if (userId ==null) return new ApiResponseDTO<List<OrderListDTO>?>(401, null, new List<string> { "Geçerli bir kullanıcı bulunamadı." });
+                var userId = _sessionContext.Session.UserId;
+                if (userId == null) return new ApiResponseDTO<List<OrderListDTO>?>(401, null, new List<string> { "Geçerli bir kullanıcı bulunamadı." });
 
                 var orders = await _unitOfWork.OrderRepository.GetAllByFilterAsync(order => order.CreatedUserId == Guid.Parse(userId), [o => o.OrderDetails]);
                 if (orders.Any())

@@ -7,7 +7,7 @@ using Papara.CaptainStore.Domain.DTOs.OrderDTOs;
 
 namespace Papara.CaptainStore.Application.CQRS.Handlers.OrderHandlers
 {
-    public class GetMyOrderByIdQueryHandler : IRequestHandler<GetOrderByIdQueryRequest, ApiResponseDTO<OrderListDTO?>>
+    public class GetMyOrderByIdQueryHandler : IRequestHandler<GetMyOrderByIdQuery, ApiResponseDTO<OrderListDTO?>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -19,7 +19,7 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.OrderHandlers
             _sessionContext = sessionContext;
         }
 
-        public async Task<ApiResponseDTO<OrderListDTO?>> Handle(GetOrderByIdQueryRequest request, CancellationToken cancellationToken)
+        public async Task<ApiResponseDTO<OrderListDTO?>> Handle(GetMyOrderByIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
@@ -38,7 +38,6 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.OrderHandlers
             }
             catch (Exception ex)
             {
-                // Hata loglaması yapılabilir
                 return new ApiResponseDTO<OrderListDTO?>(500, null, new List<string> { "Sorgulama işlemi sırasında bir sorun oluştu.", ex.Message });
             }
         }

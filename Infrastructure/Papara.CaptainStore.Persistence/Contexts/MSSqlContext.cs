@@ -9,6 +9,7 @@ using Papara.CaptainStore.Domain.Entities.CustomerEntities;
 using Papara.CaptainStore.Domain.Entities.LocationEntities;
 using Papara.CaptainStore.Domain.Entities.OrderEntities;
 using Papara.CaptainStore.Domain.Entities.ProductEntities;
+using Papara.CaptainStore.Persistence.Configurations.AppUserConfigurations;
 using Papara.CaptainStore.Persistence.Configurations.CategoryConfigurations;
 using Papara.CaptainStore.Persistence.Configurations.CouponConfigurations;
 using Papara.CaptainStore.Persistence.Configurations.CustomerAccountConfigurations;
@@ -38,6 +39,7 @@ namespace Papara.CaptainStore.Persistence.Contexts
             modelBuilder.Entity<IdentityUserLogin<Guid>>()
                         .HasKey(login => new { login.LoginProvider, login.ProviderKey });
 
+            modelBuilder.ApplyConfiguration(new AppUserConfiguration());
             modelBuilder.ApplyConfiguration(new CountryConfiguration());
             modelBuilder.ApplyConfiguration(new CityConfiguration());
             modelBuilder.ApplyConfiguration(new DistrictConfiguration());

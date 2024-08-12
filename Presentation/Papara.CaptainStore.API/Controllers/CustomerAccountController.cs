@@ -26,7 +26,7 @@ namespace Papara.CaptainStore.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCustomerAccountById(int customerAccountId)
         {
-            var response = await _mediator.Send(new CustomerAccountByIdQueryRequest { CustomerAccountId = customerAccountId});
+            var response = await _mediator.Send(new CustomerAccountByIdQueryRequest { CustomerAccountId = customerAccountId });
             return this.ReturnResponseForApiResponseDtoExtension(response);
         }
         [HttpPut]

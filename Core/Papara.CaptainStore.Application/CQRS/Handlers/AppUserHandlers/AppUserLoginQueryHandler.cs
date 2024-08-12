@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Papara.CaptainStore.Application.CQRS.Queries.AppUserQueries;
-using Papara.CaptainStore.Application.Interfaces;
+using Papara.CaptainStore.Application.Interfaces.TokenService;
 using Papara.CaptainStore.Domain.DTOs;
 using Papara.CaptainStore.Domain.Entities.AppUserEntities;
 

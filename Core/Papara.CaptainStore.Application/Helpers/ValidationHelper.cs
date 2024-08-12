@@ -38,7 +38,7 @@ namespace Papara.CaptainStore.Application.Helpers
           where TEntity : class
         {
             var entity = await getEntity();
-            mapper.Map(request,entity);
+            mapper.Map(request, entity);
 
             var validationResult = ValidateEntity(validator, entity);
             if (validationResult != null)

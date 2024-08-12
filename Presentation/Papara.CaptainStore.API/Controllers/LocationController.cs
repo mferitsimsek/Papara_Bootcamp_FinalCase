@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Papara.CaptainStore.Application.CQRS.Queries.LocationQueries;
 using Papara.CaptainStore.Application.Extensions;

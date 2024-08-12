@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
-using Papara.CaptainStore.Application.Interfaces;
-using Papara.CaptainStore.Domain.DTOs.CustomerAccountDTOs;
-using Papara.CaptainStore.Domain.DTOs;
 using Papara.CaptainStore.Application.CQRS.Commands.CustomerAccountCommands;
+using Papara.CaptainStore.Application.Interfaces;
+using Papara.CaptainStore.Domain.DTOs;
+using Papara.CaptainStore.Domain.DTOs.CustomerAccountDTOs;
 
 public class CustomerAccountDepositCommandHandler : IRequestHandler<CustomerAccountDepositCommandRequest, ApiResponseDTO<object?>>
 {

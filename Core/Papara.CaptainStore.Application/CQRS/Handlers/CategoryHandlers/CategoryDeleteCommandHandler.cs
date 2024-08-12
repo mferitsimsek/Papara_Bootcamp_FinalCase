@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Papara.CaptainStore.Application.CQRS.Commands.CategoryCommands;
 using Papara.CaptainStore.Application.Interfaces;
+using Papara.CaptainStore.Application.Interfaces.CachingService;
 using Papara.CaptainStore.Application.Services;
 using Papara.CaptainStore.Domain.DTOs;
 
@@ -36,7 +37,6 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.CategoryHandlers
             }
             catch (Exception ex)
             {
-                // Hata loglaması yapılabilir
                 return new ApiResponseDTO<object?>(500, null, new List<string> { "Silme işlemi sırasında bir sorun oluştu.", ex.Message });
             }
         }

@@ -1,17 +1,17 @@
 ﻿using MediatR;
 using Papara.CaptainStore.Application.CQRS.Commands.CustomerAccountCommands;
 using Papara.CaptainStore.Application.Interfaces;
-using Papara.CaptainStore.Application.Services;
+using Papara.CaptainStore.Application.Interfaces.CustomerAccountService;
 using Papara.CaptainStore.Domain.DTOs;
 
 namespace Papara.CaptainStore.Application.CQRS.Handlers.CustomerAccountHandlers
 {
-    internal class CustomerAccountDeleteCommandHandler : IRequestHandler<CustomerAccountDeleteCommandRequest, ApiResponseDTO<object?>>
+    public class CustomerAccountDeleteCommandHandler : IRequestHandler<CustomerAccountDeleteCommandRequest, ApiResponseDTO<object?>>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly CustomerAccountService _customerAccountService;
+        private readonly ICustomerAccountService _customerAccountService;
 
-        public CustomerAccountDeleteCommandHandler(IUnitOfWork unitOfWork, CustomerAccountService customerAccountService)
+        public CustomerAccountDeleteCommandHandler(IUnitOfWork unitOfWork, ICustomerAccountService customerAccountService)
         {
             _unitOfWork = unitOfWork;
             _customerAccountService = customerAccountService;
@@ -34,7 +34,6 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.CustomerAccountHandlers
             }
             catch (Exception ex)
             {
-                // Hata loglaması yapılabilir
                 return new ApiResponseDTO<object?>(500, null, new List<string> { "Silme işlemi sırasında bir sorun oluştu.", ex.Message });
             }
         }

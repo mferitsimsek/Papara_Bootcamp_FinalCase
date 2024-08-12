@@ -5,12 +5,12 @@ using Papara.CaptainStore.Domain.Entities.CustomerEntities;
 using Papara.CaptainStore.Domain.Entities.OrderEntities;
 using Papara.CaptainStore.Domain.Enums;
 
-namespace Papara.CaptainStore.Application.Interfaces
+namespace Papara.CaptainStore.Application.Interfaces.OrderService
 {
     public interface IOrderService
     {
         Task UpdateUserAndCoupon(OrderFinalAmountsDTO finalAmounts, Coupon coupon, CustomerAccount userAccount, OrderBasketDetailsResultDTO basketDetailsResultDTO);
-        Order CreateOrder(OrderCreateCommandRequest request, string orderNumber, decimal basketTotal, decimal couponDiscountAmount, decimal usedPointsTotal,decimal paidAmount);
+        Order CreateOrder(OrderCreateCommandRequest request, string orderNumber, decimal basketTotal, decimal couponDiscountAmount, decimal usedPointsTotal, decimal paidAmount);
         OrderFinalAmountsDTO CalculateFinalAmounts(decimal basketTotal, decimal couponDiscountAmount, DiscountType couponDiscountType, decimal pointsTotal);
         Task<OrderBasketDetailsResultDTO> GetBasketDetails(List<OrderDetailDTO> orderDetails);
         Task<OrderCouponDetailsResultDTO> ValidateCouponCode(string couponCode);

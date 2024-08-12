@@ -32,7 +32,6 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.CouponHandlers
             }
             catch (Exception ex)
             {
-                // Hata loglaması yapılabilir
                 return new ApiResponseDTO<CouponListDTO?>(500, null, new List<string> { "Sorgulama işlemi sırasında bir sorun oluştu.", ex.Message });
             }
         }
