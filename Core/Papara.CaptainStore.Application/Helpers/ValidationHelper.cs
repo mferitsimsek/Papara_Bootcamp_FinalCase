@@ -27,7 +27,7 @@ namespace Papara.CaptainStore.Application.Helpers
                 return validationResult;
             }
 
-            return new ApiResponseDTO<object?>(200, entity, null); // Başarılı durumda 200 döner
+            return new ApiResponseDTO<object?>(200, entity, null); 
         }
 
         public static async Task<ApiResponseDTO<object?>> ValidateAndMapForCreateAsync<TRequest, TEntity>(
@@ -46,7 +46,7 @@ namespace Papara.CaptainStore.Application.Helpers
                 return validationResult;
             }
 
-            return new ApiResponseDTO<object?>(200, entity, null); // Başarılı durumda 200 döner
+            return new ApiResponseDTO<object?>(200, entity, null); 
         }
 
         private static ApiResponseDTO<object?>? ValidateEntity<TEntity>(IValidator<TEntity> validator, TEntity entity)

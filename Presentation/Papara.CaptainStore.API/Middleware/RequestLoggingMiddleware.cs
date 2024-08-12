@@ -47,7 +47,7 @@ namespace Papara.CaptainStore.API.Middleware
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(ex, "Bir hata oluştu.");
+                    Log.Error(ex, "RequestLoggingMiddleware.Invoke içinde bir hata oluştu. İstek: {Request}, Yanıt: {Response}", model.Request, model.Response);
                     throw;
                 }
             }

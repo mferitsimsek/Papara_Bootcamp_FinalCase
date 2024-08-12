@@ -12,7 +12,6 @@ namespace Papara.CaptainStore.Persistence.Configurations.AppUserConfigurations
             builder.HasIndex(user => user.Email).IsUnique();
             builder.HasIndex(user => user.PhoneNumber).IsUnique();
             builder.HasIndex(user => user.UserName).IsUnique();
-            builder.Property(user => user.IsDeleted).IsRequired().HasDefaultValue(false);
         }
     }
 }

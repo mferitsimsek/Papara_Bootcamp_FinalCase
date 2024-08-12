@@ -186,11 +186,6 @@ namespace Papara.CaptainStore.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -326,7 +321,7 @@ namespace Papara.CaptainStore.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 8, 12, 17, 58, 29, 138, DateTimeKind.Local).AddTicks(4452));
+                        .HasDefaultValue(new DateTime(2024, 8, 12, 18, 12, 38, 623, DateTimeKind.Local).AddTicks(2007));
 
                     b.Property<Guid>("CreatedUserId")
                         .HasColumnType("uniqueidentifier");
@@ -388,7 +383,7 @@ namespace Papara.CaptainStore.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 8, 12, 17, 58, 29, 136, DateTimeKind.Local).AddTicks(8652));
+                        .HasDefaultValue(new DateTime(2024, 8, 12, 18, 12, 38, 621, DateTimeKind.Local).AddTicks(7247));
 
                     b.Property<Guid>("CreatedUserId")
                         .HasColumnType("uniqueidentifier");

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
 using Papara.CaptainStore.Application.Helpers;
-using Papara.CaptainStore.Application.Interfaces.Notification;
 using Papara.CaptainStore.Domain.DTOs.NotificationDTOs;
 using System.Net;
 using System.Net.Mail;

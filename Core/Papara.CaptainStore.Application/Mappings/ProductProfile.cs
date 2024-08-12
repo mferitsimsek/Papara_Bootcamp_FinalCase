@@ -12,13 +12,14 @@ namespace Papara.CaptainStore.Application.Mappings
         {
             //CreateMap<ProductListDTO, Product>().ReverseMap();           
             CreateMap<Product, ProductListDTO>()
-            .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => src.Categories.Select(pc => new CategoryListDTO
-            {
-                Id = pc.CategoryId,
-                CategoryName = pc.CategoryName,
-                Url = pc.Url,
-                Tag = pc.Tag
-            })));
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ProductId))
+                .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => src.Categories.Select(pc => new CategoryListDTO
+                {
+                    Id = pc.CategoryId,
+                    CategoryName = pc.CategoryName,
+                    Url = pc.Url,
+                    Tag = pc.Tag
+                })));
 
             CreateMap<ProductCreateCommandRequest, Product>().ReverseMap();
             CreateMap<ProductUpdateCommandRequest, Product>().ReverseMap();

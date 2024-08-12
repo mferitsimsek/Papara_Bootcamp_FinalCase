@@ -3,7 +3,7 @@ using FluentValidation;
 using MediatR;
 using Papara.CaptainStore.Application.CQRS.Commands.AppUserCommands;
 using Papara.CaptainStore.Application.Helpers;
-using Papara.CaptainStore.Application.Interfaces.UserService;
+using Papara.CaptainStore.Application.Services.UserServices;
 using Papara.CaptainStore.Domain.DTOs;
 using Papara.CaptainStore.Domain.Entities.AppUserEntities;
 

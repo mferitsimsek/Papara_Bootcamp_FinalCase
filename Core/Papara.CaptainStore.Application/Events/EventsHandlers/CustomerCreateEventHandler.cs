@@ -1,6 +1,5 @@
 ﻿using MediatR;
-using Papara.CaptainStore.Application.Interfaces;
-using Papara.CaptainStore.Application.Interfaces.CustomerAccountService;
+using Papara.CaptainStore.Application.Services.CustomerAccountServices;
 using Serilog;
 
 namespace Papara.CaptainStore.Application.Events.EventsHandlers
@@ -8,11 +7,9 @@ namespace Papara.CaptainStore.Application.Events.EventsHandlers
     public class CustomerCreateEventHandler : INotificationHandler<UserCreatedEvent>
     {
         private readonly ICustomerAccountService _customerAccountService;
-        private readonly IUnitOfWork _unitOfWork;
-        public CustomerCreateEventHandler(ICustomerAccountService customerAccountService, IUnitOfWork unitOfWork)
+        public CustomerCreateEventHandler(ICustomerAccountService customerAccountService)
         {
             _customerAccountService = customerAccountService;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task Handle(UserCreatedEvent notification, CancellationToken cancellationToken)

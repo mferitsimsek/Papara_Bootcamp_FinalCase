@@ -4,7 +4,7 @@ using MediatR;
 using Papara.CaptainStore.Application.CQRS.Commands.OrderCommands;
 using Papara.CaptainStore.Application.Helpers;
 using Papara.CaptainStore.Application.Interfaces;
-using Papara.CaptainStore.Application.Interfaces.OrderService;
+using Papara.CaptainStore.Application.Services.OrderServices;
 using Papara.CaptainStore.Domain.DTOs;
 using Papara.CaptainStore.Domain.Entities.OrderEntities;
 
@@ -16,17 +16,15 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.OrderHandlers
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISessionContext _sessionContext;
         private readonly IValidator<Order> _validator;
-        private readonly IOrderService _orderService;
-        private readonly IHttpClientService _httpClientService;
+        private readonly IOrderService _orderService;        
 
-        public OrderCreateCommandHandler(IMapper mapper, IUnitOfWork unitOfWork, ISessionContext sessionContext, IValidator<Order> validator, IOrderService orderService, IHttpClientService httpClientService)
+        public OrderCreateCommandHandler(IMapper mapper, IUnitOfWork unitOfWork, ISessionContext sessionContext, IValidator<Order> validator, IOrderService orderService)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _sessionContext = sessionContext;
             _validator = validator;
             _orderService = orderService;
-            _httpClientService = httpClientService;
         }
         public async Task<ApiResponseDTO<object?>> Handle(OrderCreateCommandRequest request, CancellationToken cancellationToken)
         {
@@ -60,6 +58,8 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.OrderHandlers
 
                 var order = _orderService.CreateOrder(request, orderNumber, basketDetails.BasketTotal, couponDetails.CouponDiscountAmount, finalAmounts.UsedPointsTotal, finalAmounts.PaidAmount);
                 await _orderService.SaveOrder(order);
+                
+                await _orderService.SendOrderReceivedEmailAsync(order);
 
                 return new ApiResponseDTO<object?>(201, order, new List<string> { "Sipariş başarıyla oluşturuldu." });
             }

@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Papara.CaptainStore.Application.Helpers;
 using Papara.CaptainStore.Application.Interfaces.Message;
-using Papara.CaptainStore.Application.Interfaces.Notification;
+using Papara.CaptainStore.Application.Services.Notification;
 using Papara.CaptainStore.Domain.DTOs.NotificationDTOs;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;

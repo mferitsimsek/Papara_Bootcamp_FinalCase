@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
-using Papara.CaptainStore.Application.Interfaces.CachingService;
+using Papara.CaptainStore.Application.Interfaces.Caching;
 using StackExchange.Redis;
 using System.Text.Json;
 using System.Text.Json.Serialization;

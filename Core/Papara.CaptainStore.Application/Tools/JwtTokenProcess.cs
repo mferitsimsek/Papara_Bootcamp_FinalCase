@@ -12,19 +12,6 @@ namespace Papara.CaptainStore.Application.Tools
         public static LoginInfoDTO GenerateToken(AppUserLoginDTO user, IList<string> userRoles)
         {
             Claim[] claims = GetClaims(user, userRoles);
-
-            //var claims = new List<Claim>
-            //{
-            //    new Claim(ClaimTypes.NameIdentifier, user.AppUserId.ToString()),
-            //    new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}")
-            //};
-            //if (userRoles.Any())
-            //{
-            //    foreach (var role in userRoles)
-            //    {
-            //        claims.Add(new Claim(ClaimTypes.Role, role));
-            //    }
-            //}
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtTokenDefaults.Key));
             var signinCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var expireDate = DateTime.UtcNow.AddDays(JwtTokenDefaults.Expire);
@@ -40,12 +27,12 @@ namespace Papara.CaptainStore.Application.Tools
         private static Claim[] GetClaims(AppUserLoginDTO user, IList<string> userRoles)
         {
             List<Claim> claims = new List<Claim>()
-        {
-            new Claim("UserName", user.UserName),
-            new Claim("UserId", user.AppUserId.ToString()),
-            new Claim("Email", user.Email),
-            new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}")
-        };
+            {
+                new Claim("UserName", user.UserName),
+                new Claim("UserId", user.AppUserId.ToString()),
+                new Claim("Email", user.Email),
+                new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}")
+            };
             if (userRoles.Any())
             {
                 foreach (var role in userRoles)

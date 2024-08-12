@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Papara.CaptainStore.Application.CQRS.Commands.AppRoleCommands;
 using Papara.CaptainStore.Application.CQRS.Queries.AppRoleQueries;
@@ -8,6 +9,7 @@ namespace Papara.CaptainStore.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize(Roles ="Admin")]
     public class AppRoleController : ControllerBase
     {
         private readonly IMediator _mediator;

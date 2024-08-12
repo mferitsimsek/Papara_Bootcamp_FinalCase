@@ -1,5 +1,5 @@
 ﻿using Papara.CaptainStore.Application.Interfaces.Message;
-using Papara.CaptainStore.Application.Interfaces.Notification;
+using Papara.CaptainStore.Application.Services.Notification;
 
 namespace Papara.CaptainStore.Application.Services.Hangfire
 {

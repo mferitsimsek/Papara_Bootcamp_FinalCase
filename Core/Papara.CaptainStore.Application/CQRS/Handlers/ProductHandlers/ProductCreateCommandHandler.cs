@@ -3,7 +3,7 @@ using FluentValidation;
 using MediatR;
 using Papara.CaptainStore.Application.CQRS.Commands.ProductCommands;
 using Papara.CaptainStore.Application.Helpers;
-using Papara.CaptainStore.Application.Interfaces.ProductServices;
+using Papara.CaptainStore.Application.Services.ProductServices;
 using Papara.CaptainStore.Domain.DTOs;
 using Papara.CaptainStore.Domain.DTOs.ProductDTOs;
 using Papara.CaptainStore.Domain.Entities.ProductEntities;

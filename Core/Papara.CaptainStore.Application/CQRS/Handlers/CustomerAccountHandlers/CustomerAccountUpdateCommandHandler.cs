@@ -4,7 +4,7 @@ using MediatR;
 using Papara.CaptainStore.Application.CQRS.Commands.CustomerAccountCommands;
 using Papara.CaptainStore.Application.Helpers;
 using Papara.CaptainStore.Application.Interfaces;
-using Papara.CaptainStore.Application.Interfaces.CustomerAccountService;
+using Papara.CaptainStore.Application.Services.CustomerAccountServices;
 using Papara.CaptainStore.Domain.DTOs;
 using Papara.CaptainStore.Domain.DTOs.CustomerAccountDTOs;
 using Papara.CaptainStore.Domain.Entities.CustomerEntities;

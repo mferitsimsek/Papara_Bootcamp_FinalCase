@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Papara.CaptainStore.Application.CQRS.Commands.CouponCommands;
 using Papara.CaptainStore.Application.Interfaces;
-using Papara.CaptainStore.Application.Interfaces.CouponServices;
+using Papara.CaptainStore.Application.Services.CouponServices;
 using Papara.CaptainStore.Domain.DTOs;
 
 namespace Papara.CaptainStore.Application.CQRS.Handlers.CouponHandlers

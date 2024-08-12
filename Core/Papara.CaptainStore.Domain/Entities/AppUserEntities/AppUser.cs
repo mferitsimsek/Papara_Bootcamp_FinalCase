@@ -9,7 +9,6 @@ namespace Papara.CaptainStore.Domain.Entities.AppUserEntities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public bool? Status { get; set; }
-        public bool IsDeleted { get; set; }
         public int CountryId { get; set; }
         public Country? Country { get; set; }
         public int CityId { get; set; }

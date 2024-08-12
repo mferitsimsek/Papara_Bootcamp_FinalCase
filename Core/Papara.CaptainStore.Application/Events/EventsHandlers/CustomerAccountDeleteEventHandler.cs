@@ -21,7 +21,7 @@ namespace Papara.CaptainStore.Application.Events.EventHandlers
                 var customerAccount = await _unitOfWork.CustomerAccountRepository.GetByIdAsync(notification.AppUserId);
                 if (customerAccount != null)
                 {
-                    customerAccount.IsDeleted = true;
+                    await _unitOfWork.CustomerAccountRepository.DeleteAsync(customerAccount);
                     await _unitOfWork.Complete();
                 }
             }

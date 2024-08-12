@@ -1,14 +1,16 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Papara.CaptainStore.Application.CQRS.Commands.CouponCommands;
 using Papara.CaptainStore.Application.CQRS.Queries.CouponQueries;
 using Papara.CaptainStore.Application.Extensions;
-using Serilog;
 
 namespace Papara.CaptainStore.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
+
     public class CouponController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -21,8 +23,6 @@ namespace Papara.CaptainStore.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllCoupons()
         {
-            Log.Warning("Uyarı Mesajı.");
-            Log.Error("Hata mesajı aldık.", "Hata");
             var response = await _mediator.Send(new CouponsListQueryRequest());
             return this.ReturnResponseForApiResponseDtoExtension(response);
         }
@@ -35,6 +35,12 @@ namespace Papara.CaptainStore.API.Controllers
 
         [HttpPost]
         public async Task<IActionResult> GetCouponsByFilter([FromBody] CouponsFilterQueryRequest request)
+        {
+            var response = await _mediator.Send(request);
+            return this.ReturnResponseForApiResponseDtoExtension(response);
+        }
+        [HttpPost]
+        public async Task<IActionResult> SendCoupon(CouponSendCommandRequest request)
         {
             var response = await _mediator.Send(request);
             return this.ReturnResponseForApiResponseDtoExtension(response);

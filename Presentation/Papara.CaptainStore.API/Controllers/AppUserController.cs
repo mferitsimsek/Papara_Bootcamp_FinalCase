@@ -9,6 +9,8 @@ namespace Papara.CaptainStore.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
+
     public class AppUserController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -18,7 +20,7 @@ namespace Papara.CaptainStore.API.Controllers
             _mediator = mediator;
         }
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllAppUsers()
         {
             var response = await _mediator.Send(new AppUserListQueryRequest());
@@ -44,23 +46,17 @@ namespace Papara.CaptainStore.API.Controllers
             return this.ReturnResponseForApiResponseDtoExtension(response);
         }
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateAppUser(AppUserUpdateCommandRequest request)
         {
             var response = await _mediator.Send(request);
             return this.ReturnResponseForApiResponseDtoExtension(response);
         }
         [HttpDelete("{appUserId}")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteAppUser(Guid appUserId)
         {
             var response = await _mediator.Send(new AppUserDeleteCommandRequest { AppUserId = appUserId });
-            return this.ReturnResponseForApiResponseDtoExtension(response);
-        }
-        [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AppUserSetRole(AppUserSetRoleCommandRequest request)
-        {
-            var response = await _mediator.Send(request);
             return this.ReturnResponseForApiResponseDtoExtension(response);
         }
         [HttpPost]

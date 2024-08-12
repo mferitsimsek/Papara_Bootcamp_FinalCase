@@ -5,22 +5,22 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Papara.CaptainStore.Application.Interfaces;
-using Papara.CaptainStore.Application.Interfaces.CachingService;
-using Papara.CaptainStore.Application.Interfaces.CategoryServices;
-using Papara.CaptainStore.Application.Interfaces.CouponServices;
-using Papara.CaptainStore.Application.Interfaces.CustomerAccountService;
+using Papara.CaptainStore.Application.Interfaces.Caching;
 using Papara.CaptainStore.Application.Interfaces.Message;
-using Papara.CaptainStore.Application.Interfaces.Notification;
-using Papara.CaptainStore.Application.Interfaces.OrderService;
-using Papara.CaptainStore.Application.Interfaces.ProductServices;
-using Papara.CaptainStore.Application.Interfaces.TokenService;
-using Papara.CaptainStore.Application.Interfaces.UserService;
 using Papara.CaptainStore.Application.Mappings;
 using Papara.CaptainStore.Application.Services;
 using Papara.CaptainStore.Application.Services.Caching;
+using Papara.CaptainStore.Application.Services.CategoryServices;
+using Papara.CaptainStore.Application.Services.CouponServices;
+using Papara.CaptainStore.Application.Services.CustomerAccountServices;
+using Papara.CaptainStore.Application.Services.MailContentBuilder;
 using Papara.CaptainStore.Application.Services.Message;
 using Papara.CaptainStore.Application.Services.Notification;
-using Papara.CaptainStore.Application.Tools;
+using Papara.CaptainStore.Application.Services.OrderServices;
+using Papara.CaptainStore.Application.Services.PaymentServices;
+using Papara.CaptainStore.Application.Services.ProductServices;
+using Papara.CaptainStore.Application.Services.TokenServices;
+using Papara.CaptainStore.Application.Services.UserServices;
 using Papara.CaptainStore.Application.Validators.AppUserValidators;
 using Papara.CaptainStore.Domain.Consts;
 using System.Reflection;
@@ -37,7 +37,13 @@ namespace Papara.CaptainStore.Application
             services.AddFluentValidationAutoValidation()
                       .AddFluentValidationClientsideAdapters(); // doğrulama kuralları sadece sunucu tarafında değil istemci tarafındada uygulanır. Örn: JavaScript ile 
 
-            services.AddControllers().AddJsonOptions(options =>
+            services.AddControllers(config =>
+            {
+                config.RespectBrowserAcceptHeader = true;
+                config.ReturnHttpNotAcceptable = true;
+            })
+            .AddXmlDataContractSerializerFormatters()
+            .AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
                 options.JsonSerializerOptions.WriteIndented = true;
@@ -112,8 +118,10 @@ namespace Papara.CaptainStore.Application
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICouponService, CouponService>();
             services.AddScoped<ICustomerAccountService, CustomerAccountService>();
-            services.AddSingleton<ICacheService, CacheService>();
+            services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<IEmailContentBuilder, EmailContentBuilder>();
 
+            services.AddSingleton<ICacheService, CacheService>();
             services.AddSingleton<IMessageProducer, MessageProducer>();
             services.AddSingleton<IMessageConsumer, MessageConsumer>();
             services.AddSingleton<INotificationService, NotificationService>();

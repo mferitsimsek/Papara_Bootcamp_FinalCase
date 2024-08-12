@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Papara.CaptainStore.Application.CQRS.Commands.PaymentCommands;
 using Papara.CaptainStore.Application.Interfaces;
-using Papara.CaptainStore.Application.Interfaces.OrderService;
+using Papara.CaptainStore.Application.Services.OrderServices;
 using Papara.CaptainStore.Domain.DTOs;
 using Papara.CaptainStore.Domain.DTOs.PaymentDTOs;
 
@@ -42,6 +42,13 @@ namespace Papara.CaptainStore.API.Controllers
             }
             await _orderService.UpdateOrderPaymentStatusAsync(request.OrderId, true);
             return Ok(response);
+        }
+
+        [HttpOptions]
+        public async Task<IActionResult> PaymentOptions()
+        {
+            Response.Headers.Add("Allow", "POST");
+            return Ok();
         }
     }
 }

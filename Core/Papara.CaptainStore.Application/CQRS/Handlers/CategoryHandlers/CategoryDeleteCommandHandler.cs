@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Papara.CaptainStore.Application.CQRS.Commands.CategoryCommands;
 using Papara.CaptainStore.Application.Interfaces;
-using Papara.CaptainStore.Application.Interfaces.CachingService;
+using Papara.CaptainStore.Application.Interfaces.Caching;
 using Papara.CaptainStore.Application.Services;
 using Papara.CaptainStore.Domain.DTOs;
 

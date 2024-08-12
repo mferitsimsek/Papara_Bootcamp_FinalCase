@@ -28,8 +28,8 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.AppUserHandlers
                 if (user == null)
                     return new ApiResponseDTO<object?>(404, null, new List<string> { "Silinecek kullanıcı bulunamadı." });
 
-                user.IsDeleted = true;
-                await _unitOfWork.AppUserRepository.UpdateAsync(user);
+                await _unitOfWork.AppUserRepository.DeleteAsync(user);
+
                 //Kullanıcı silme  başarılı ise Customer Account silme event'i tetikleniyor.
                 await _mediator.Publish(new UserDeletedEvent(user.Id));
                 await _unitOfWork.Complete();

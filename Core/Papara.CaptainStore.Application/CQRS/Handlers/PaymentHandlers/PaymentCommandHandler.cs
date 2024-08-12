@@ -1,26 +1,45 @@
 ﻿using MediatR;
 using Papara.CaptainStore.Application.CQRS.Commands.PaymentCommands;
+using Papara.CaptainStore.Application.Interfaces;
+using Papara.CaptainStore.Application.Services.PaymentServices;
 using Papara.CaptainStore.Domain.DTOs;
+using Papara.CaptainStore.Domain.DTOs.MailDTOs;
 using Papara.CaptainStore.Domain.DTOs.PaymentDTOs;
 
 namespace Papara.CaptainStore.Application.CQRS.Handlers.PaymentHandlers
 {
     public class PaymentCommandHandler : IRequestHandler<PaymentCommandRequest, ApiResponseDTO<object?>>
     {
+        private readonly IPaymentService _paymentService;
+        private readonly ISessionContext _sessionContext;
+        private readonly IUnitOfWork _unitOfWork;
+        public PaymentCommandHandler(IPaymentService paymentService, ISessionContext sessionContext, IUnitOfWork unitOfWork)
+        {
+            _paymentService = paymentService;
+            _sessionContext = sessionContext;
+            _unitOfWork = unitOfWork;
+        }
+
         public async Task<ApiResponseDTO<object?>> Handle(PaymentCommandRequest request, CancellationToken cancellationToken)
         {
-            if (!IsValidCardNumber(request.CardNumber))
+
+            var order = await _unitOfWork.OrderRepository.GetByIdAsync(request.OrderId);
+            if (order == null)
+            {
+                return new ApiResponseDTO<object?>(404, null, new List<string> { "Sipariş bulunamadı." });
+            }
+
+            if (!_paymentService.IsValidCardNumber(request.CardNumber))
             {
                 return new ApiResponseDTO<object?>(400, null, new List<string> { "Geçersiz kart numarası." });
             }
-            if (!IsValidExpirationDate(request.ExpiryMonth, request.ExpiryYear))
+            if (!_paymentService.IsValidExpirationDate(request.ExpiryMonth, request.ExpiryYear))
             {
                 return new ApiResponseDTO<object?>(400, null, new List<string> { "Geçersiz son kullanma tarihi." });
             }
-            // Burada gerçek ödeme işlemi simüle ediliyor
             await Task.Delay(1000, cancellationToken); // Ödeme işlemi simülasyonu
 
-            string cardType = GetCardType(request.CardNumber);
+            string cardType = _paymentService.GetCardType(request.CardNumber);
 
             var result = new PaymentResponseDTO
             {
@@ -28,65 +47,16 @@ namespace Papara.CaptainStore.Application.CQRS.Handlers.PaymentHandlers
                 TransactionId = Guid.NewGuid().ToString(),
                 CardType = cardType
             };
-
+            var payment = new PaymentCompletedEmailDTO
+            {
+                OrderNumber = order.OrderNumber,
+                TransactionId = Guid.Parse(result.TransactionId),
+                CreatedDate = DateTime.UtcNow,
+                CreatedUserId = order.CreatedUserId.ToString(),
+                PaidAmount = Math.Max(0, order.BasketTotal - order.CouponDiscountAmount - order.PointsTotal)
+            };
+            await _paymentService.SendPaymentCompletedEmailAsync(payment);
             return new ApiResponseDTO<object?>(201, result, new List<string> { "Ödeme başarıyla gerçekleşti." });
-        }
-        private bool IsValidCardNumber(string cardNumber)
-        {
-            // Basit bir Luhn algoritması implementasyonu
-            int sum = 0;
-            bool isEven = false;
-            for (int i = cardNumber.Length - 1; i >= 0; i--)
-            {
-                int digit = cardNumber[i] - '0';
-                if (isEven)
-                {
-                    digit *= 2;
-                    if (digit > 9)
-                        digit -= 9;
-                }
-                sum += digit;
-                isEven = !isEven;
-            }
-            return (sum % 10 == 0);
-        }
-        private bool IsValidExpirationDate(string expiryMonth, string expiryYear)
-        {
-            // ExpirationDate formatı MM/YY olmalı
-            int month = int.Parse(expiryMonth);
-            int year = int.Parse(expiryYear);
-
-            // Geçerlilik tarihi kontrolü
-            if (month < 1 || month > 12 || year < DateTime.Now.Year)
-            {
-                return false;
-            }
-
-            if (year == DateTime.Now.Year && month < DateTime.Now.Month)
-            {
-                return false;
-            }
-
-            return true;
-        }
-        private string GetCardType(string cardNumber)
-        {
-            switch (cardNumber.Substring(0, 2)) // İlk iki haneyi al
-            {
-                case "34":
-                case "37":
-                    return "American Express";
-                case "4":
-                    return "Visa";
-                case "51":
-                case "52":
-                case "53":
-                case "54":
-                case "55":
-                    return "MasterCard";
-                default:
-                    return "Bilinmeyen Kart Tipi";
-            }
         }
     }
 }
